@@ -1,9 +1,10 @@
 import json
 from os import path
+import const
 
-workingPack = "Packs\Skyblock 3-0"
 newProb=0.2
 
+workingPack=const.workingPack
 with open(path.join(workingPack,"feature_rules","overworld_amethyst_geode_feature.json")) as file:
     data = json.load(file)
 data["minecraft:feature_rules"]["distribution"]["scatter_chance"]=newProb
