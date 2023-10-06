@@ -1,0 +1,17 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "isl:v_flower_rose_upper"
+    },
+    "places_block": {
+      "name": "minecraft:double_plant",
+      "states": {
+        "double_plant_type": "rose",
+        "upper_block_bit": true
+      }
+    },
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": false
+  }
+}

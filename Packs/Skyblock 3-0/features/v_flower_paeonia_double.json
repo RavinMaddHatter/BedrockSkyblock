@@ -1,0 +1,13 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:aggregate_feature": {
+    "description": {
+      "identifier": "isl:v_flower_paeonia_double"
+    },
+    "early_out": "first_failure",
+    "features": [
+      "isl:v_flower_paeonia_lower",
+      "isl:v_flower_paeonia_fixup"
+    ]
+  }
+}

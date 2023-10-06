@@ -1,0 +1,27 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "isl:o_v_isl_fr_warm_ocean",
+      "places_feature": "isl:isl_warm_ocean_c_assy"
+    },
+    "conditions": {
+      "placement_pass": "final_pass",
+      "minecraft:biome_filter": [
+        {
+          "all_of": [
+            {"test": "has_biome_tag", "operator": "==", "value": "ocean"},
+            {"test": "has_biome_tag", "operator": "==", "value": "warm"}
+          ]
+        }
+      ]
+    },    
+    "distribution": {
+      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.0",
+      "iterations": 1,
+      "x": 0,
+      "z": 0,
+      "y": 63
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_warped_forest_a_lyr_2_a_alt"
+    },
+    "places_feature": "isl:v_ancient_debris",
+    "scatter_chance": 100,
+    "iterations": 1,
+    "x": 8,
+    "z": 8,
+    "y": 7
+  }
+}

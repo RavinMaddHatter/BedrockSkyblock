@@ -1,0 +1,11 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:snap_to_surface_feature": {
+    "description": {
+      "identifier": "isl:v_dripstone_snap_top"
+    },
+    "feature_to_snap": "isl:v_dripstone_top",
+    "vertical_search_range": 5,
+    "surface": "ceiling"
+  }
+}

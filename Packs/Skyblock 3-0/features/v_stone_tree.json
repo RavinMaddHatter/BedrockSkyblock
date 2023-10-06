@@ -1,0 +1,33 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
+    "description": {
+      "identifier": "isl:v_stone_tree"
+    },
+    "trunk": {
+      "trunk_height": 1,
+      "trunk_block": "minecraft:stone"
+    },
+    "canopy": {
+      "canopy_offset": {
+        "min": -1,
+        "max": 1
+      },
+      "leaf_block": "minecraft:stone",
+      "min_width": 0,
+      "canopy_slope": {
+        "rise": 1,
+        "run": 1
+      },
+      "variation_chance": {
+        "numerator": 1,
+        "denominator": 2
+      }
+    },
+    "may_grow_on": [
+      "minecraft:stone",
+      "minecraft:gravel"
+    ],
+    "may_replace": [ "minecraft:air" ]
+  }
+}

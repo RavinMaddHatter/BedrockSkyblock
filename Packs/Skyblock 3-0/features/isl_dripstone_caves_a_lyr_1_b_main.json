@@ -1,0 +1,23 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_dripstone_caves_a_lyr_1_b_main"
+    },
+    "places_feature": "isl:v_stone_replace",
+    "iterations": "1*768",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "y": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 5 ],
+      "grid_offset": 3
+    }
+  }
+}

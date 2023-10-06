@@ -1,0 +1,19 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_lush_caves_a_lyr_2_b_main"
+    },
+    "places_feature": "isl:v_dirt",
+    "iterations": "0*256",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "y": 6
+  }
+}

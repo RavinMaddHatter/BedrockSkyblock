@@ -1,0 +1,24 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "void:1_n_v_fr_geode1",
+      "places_feature": "void:1_o-n_v_fb_geode"
+    },
+    "conditions": {
+      "placement_pass": "sky_pass",
+      "minecraft:biome_filter": [
+        {
+          "test": "has_biome_tag", "operator": "!=", "value": "the_end",
+          "test": "has_biome_tag", "operator": "==", "value": "nether"
+        }
+      ]
+    },    
+    "distribution": {
+      "iterations": 1,
+      "x": 0,
+      "z": 0,
+      "y": 28
+    }
+  }
+}

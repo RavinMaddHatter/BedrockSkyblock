@@ -1,0 +1,33 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:geode_feature": {
+    "description": {
+      "identifier": "isl:v_base_island_a_geode"
+    },
+    "filler": "minecraft:dirt",
+    "inner_layer": "minecraft:dirt",
+    "alternate_inner_layer": "minecraft:dirt",
+    "middle_layer": "minecraft:dirt",
+    "outer_layer": "minecraft:air",
+    "inner_placements": [
+      {
+        "name": "minecraft:hanging_roots"
+      }
+    ],
+    "min_outer_wall_distance": 8,
+    "max_outer_wall_distance": 8,
+    "min_distribution_points": 2,
+    "max_distribution_points": 2,
+    "min_point_offset": 1,
+    "max_point_offset": 4,
+    "max_radius": 16,
+    "crack_point_offset": 0,
+    "generate_crack_chance": 0,
+    "base_crack_size": 0,
+    "noise_multiplier": 0.1,
+    "use_potential_placements_chance": 0,
+    "use_alternate_layer0_chance": 0.083,
+    "placements_require_layer0_alternate": true,
+    "invalid_blocks_threshold": 100
+  }
+}

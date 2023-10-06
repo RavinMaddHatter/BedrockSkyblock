@@ -1,0 +1,31 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
+    "description": {
+      "identifier": "isl:v_fossil"
+    },
+    "acacia_trunk": {
+      "trunk_width": 1,
+      "trunk_height": {
+        "base": 1,
+        "intervals": [ 3, 3 ]
+      },
+      "trunk_block": "minecraft:bone_block",
+      "trunk_lean": {
+        "allow_diagonal_growth": true,
+        "lean_height": {
+          "range_min": 1,
+          "range_max": 1
+        },
+        "lean_steps": {
+          "range_min": 1,
+          "range_max": 3
+        },
+        "lean_length": {
+          "range_min": 1,
+          "range_max": 3
+        }
+      }
+    }
+  }
+}

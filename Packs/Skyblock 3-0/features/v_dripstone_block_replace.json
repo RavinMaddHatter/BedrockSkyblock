@@ -1,0 +1,16 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "isl:v_dripstone_block_replace"
+    },
+    "places_block": {
+      "name": "minecraft:dripstone_block"
+    },
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": false,
+    "may_replace": [
+      "minecraft:dirt"
+    ]
+  }
+}

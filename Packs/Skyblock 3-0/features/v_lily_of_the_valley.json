@@ -1,0 +1,16 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "isl:v_lily_of_the_valley"
+    },
+    "places_block": {
+      "name": "minecraft:red_flower",
+      "states": {
+        "flower_type": "lily_of_the_valley"
+      }
+    },
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": true
+  }
+}

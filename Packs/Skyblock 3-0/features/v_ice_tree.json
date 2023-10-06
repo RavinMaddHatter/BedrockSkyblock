@@ -1,0 +1,38 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
+    "description": {
+      "identifier": "isl:v_ice_tree"
+    },
+    "trunk": {
+      "trunk_height": 5,
+      "trunk_block": "minecraft:packed_ice"
+    },
+    "canopy": {
+      "canopy_offset": {
+        "min": -5,
+        "max": 0
+      },
+      "variation_chance": [
+        {
+          "numerator": 1,
+          "denominator": 2
+        }
+      ],
+      "min_width": 0,
+      "canopy_slope": {
+        "rise": 2,
+        "run": 1
+      },
+      "leaf_block": "minecraft:packed_ice",
+      "canopy_decoration": {
+        "decoration_block": "minecraft:packed_ice",
+        "decoration_chance": 1,
+        "num_steps": 2,
+        "step_direction": "up"
+      }
+    },
+    "may_grow_on": [ "minecraft:snow" ],
+    "may_replace": [ "minecraft:air" ]
+  }
+}

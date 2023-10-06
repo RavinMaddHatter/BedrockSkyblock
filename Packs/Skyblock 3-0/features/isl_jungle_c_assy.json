@@ -1,0 +1,24 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:aggregate_feature": {
+    "description": {
+      "identifier": "isl:isl_jungle_c_assy"
+    },
+    "features": [
+      "isl:v_base_island_c_assembly",
+      "isl:isl_jungle_a_lyr_1_a_alt",
+      "isl:isl_jungle_a_lyr_1_b_main",
+      "isl:isl_jungle_a_lyr_2_a_alt",
+      "isl:isl_jungle_a_lyr_2_b_main",
+      "isl:isl_jungle_a_lyr_3_a_alt",
+      "isl:isl_jungle_a_lyr_3_b_main",
+      "isl:isl_jungle_a_lyr_4_a_alt",
+      "isl:isl_jungle_a_lyr_4_b_main",
+      "isl:isl_jungle_b_accy_1",
+      "isl:isl_jungle_b_accy_2",
+      "isl:isl_jungle_b_accy_3",
+      "isl:isl_jungle_b_accy_4",
+      "isl:isl_jungle_b_accy_5"
+    ]
+  }
+}

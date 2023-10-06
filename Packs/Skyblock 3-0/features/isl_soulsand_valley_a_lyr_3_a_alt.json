@@ -1,0 +1,20 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_soulsand_valley_a_lyr_3_a_alt"
+    },
+    "places_feature": "isl:v_soul_soil_replace",
+    "scatter_chance": 100,
+    "iterations": 20,
+    "x": {
+      "distribution": "uniform",
+      "extent": [ 5, 12 ]
+    },
+    "z": {
+      "distribution": "uniform",
+      "extent": [ 5, 12 ]
+    },
+    "y": 7
+  }
+}
