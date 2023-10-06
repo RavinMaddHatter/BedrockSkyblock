@@ -1,0 +1,11 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "isl:v_dead_bush"
+    },
+    "places_block": "minecraft:deadbush",
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": false
+  }
+}

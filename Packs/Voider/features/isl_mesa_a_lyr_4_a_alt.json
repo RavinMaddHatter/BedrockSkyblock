@@ -1,0 +1,20 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_mesa_a_lyr_4_a_alt"
+    },
+    "places_feature": "isl:v_hardened_clay_replace",
+    "scatter_chance": 50,
+    "iterations": "1*256",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "y": 8
+  }
+}

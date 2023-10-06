@@ -1,0 +1,83 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "minecraft:overworld_surface_kelp_feature",
+      "places_feature": "minecraft:kelp_feature"
+    },
+    "conditions": {
+      "placement_pass": "surface_pass",
+      "minecraft:biome_filter": [
+        {
+          "any_of": [
+            {
+              "all_of": [
+                {
+                  "any_of": [
+                    {
+                      "test": "has_biome_tag",
+                      "operator": "==",
+                      "value": "overworld"
+                    },
+                    {
+                      "test": "has_biome_tag",
+                      "operator": "==",
+                      "value": "overworld_generation"
+                    }
+                  ]
+                },
+                {
+                  "test": "has_biome_tag",
+                  "operator": "!=",
+                  "value": "ocean"
+                }
+              ]
+            },
+            {
+              "all_of": [
+                {
+                  "test": "has_biome_tag",
+                  "operator": "==",
+                  "value": "ocean"
+                },
+                {
+                  "any_of": [
+                    {
+                      "test": "has_biome_tag",
+                      "operator": "==",
+                      "value": "warm"
+                    },
+                    {
+                      "all_of": [
+                        {
+                          "test": "has_biome_tag",
+                          "operator": "==",
+                          "value": "frozen"
+                        },
+                        {
+                          "test": "has_biome_tag",
+                          "operator": "==",
+                          "value": "monster"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "iterations": 0,
+      "scatter_chance": {
+        "numerator": 1,
+        "denominator": 18
+      },
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

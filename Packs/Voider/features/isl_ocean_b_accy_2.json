@@ -1,0 +1,20 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_ocean_b_accy_2"
+    },
+    "places_feature": "isl:v_kelp",
+    "scatter_chance": 100,
+    "iterations": 5,
+    "x": {
+      "distribution": "uniform",
+      "extent": [ 6, 10 ]
+    },
+    "z": {
+      "distribution": "uniform",
+      "extent": [ 6, 10 ]
+    },
+    "y": 8
+  }
+}

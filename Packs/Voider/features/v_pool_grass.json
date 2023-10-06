@@ -1,0 +1,24 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:vegetation_patch_feature": {
+    "description": {
+      "identifier": "isl:v_pool_grass"
+    },
+    "replaceable_blocks": [
+      "minecraft:dirt"
+    ],
+    "ground_block": "minecraft:dirt",
+    "vegetation_feature": "minecraft:seagrass_feature",
+    "surface": "floor",
+    "depth": 3,
+    "vertical_range": 5,
+    "vegetation_chance": 0.1,
+    "horizontal_radius": {
+      "range_min": 4,
+      "range_max": 8
+    },
+    "extra_deep_block_chance": 0.8,
+    "extra_edge_column_chance": 0.7,
+    "waterlogged": true
+  }
+}

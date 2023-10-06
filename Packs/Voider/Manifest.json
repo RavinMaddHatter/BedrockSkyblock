@@ -1,0 +1,30 @@
+{
+  "format_version": 2,
+  "header": {
+    "description": "World Voider. By \u00c2\u00a7aBud aj29 \u00c2\u00a7fand \u00c2\u00a7fRavinMaddHatter.",
+    "name": "World Voider",
+    "uuid": "97e6cc60-ba61-4d6a-9eae-a3119a17c1e5",
+    "version": [
+      0,
+      0,
+      9
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      30
+    ]
+  },
+  "modules": [
+    {
+      "description": "",
+      "type": "data",
+      "uuid": "116f34f2-d319-4fb2-9403-d5bb1bf85277",
+      "version": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

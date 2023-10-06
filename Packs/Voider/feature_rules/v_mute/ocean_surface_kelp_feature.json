@@ -1,0 +1,61 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "minecraft:ocean_surface_kelp_feature",
+      "places_feature": "minecraft:kelp_feature"
+    },
+    "conditions": {
+      "placement_pass": "surface_pass",
+      "minecraft:biome_filter": [
+        {
+          "test": "has_biome_tag",
+          "operator": "==",
+          "value": "ocean"
+        },
+        {
+          "test": "has_biome_tag",
+          "operator": "!=",
+          "value": "warm"
+        },
+        {
+          "any_of": [
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "frozen"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "monster"
+            }
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "iterations": 0,
+      "scatter_chance": {
+        "numerator": 1,
+        "denominator": 18
+      },
+      "coordinate_eval_order": "zxy",
+      "x": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          35
+        ]
+      },
+      "y": "query.heightmap(variable.worldx, variable.worldz)",
+      "z": {
+        "distribution": "uniform",
+        "extent": [
+          0,
+          35
+        ]
+      }
+    }
+  }
+}

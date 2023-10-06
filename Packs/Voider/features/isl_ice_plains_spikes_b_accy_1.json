@@ -1,0 +1,20 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_ice_plains_spikes_b_accy_1"
+    },
+    "places_feature": "isl:v_ice_tree",
+    "scatter_chance": 100,
+    "iterations": 1,
+    "x": {
+      "distribution": "triangle",
+      "extent": [ 7, 9 ]
+    },
+    "z": {
+      "distribution": "triangle",
+      "extent": [ 7, 9 ]
+    },
+    "y": 9
+  }
+}

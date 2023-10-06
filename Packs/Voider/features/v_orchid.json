@@ -1,0 +1,16 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "isl:v_orchid"
+    },
+    "places_block": {
+      "name": "minecraft:red_flower",
+      "states": {
+        "flower_type": "orchid"
+      }
+    },
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": true
+  }
+}

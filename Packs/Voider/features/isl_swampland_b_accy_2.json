@@ -1,0 +1,20 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "isl:isl_swampland_b_accy_2"
+    },
+    "places_feature": "isl:v_waterlily",
+    "scatter_chance": 100,
+    "iterations": 9,
+    "x": {
+      "distribution": "uniform",
+      "extent": [ 7, 10 ]
+    },
+    "z": {
+      "distribution": "uniform",
+      "extent": [ 7, 10 ]
+    },
+    "y": 9
+  }
+}
