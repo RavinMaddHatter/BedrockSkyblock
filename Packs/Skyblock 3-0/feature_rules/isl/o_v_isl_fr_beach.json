@@ -10,19 +10,31 @@
       "minecraft:biome_filter": [
         {
           "any_of": [
-            {"test": "has_biome_tag", "operator": "==", "value": "beach"},
-            {"test": "has_biome_tag", "operator": "==", "value": "river"}
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "beach"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "river"
+            }
           ]
         },
         {
           "all_of": [
-            {"test": "has_biome_tag", "operator": "!=", "value": "stone"}
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "stone"
+            }
           ]
         }
       ]
-    },    
+    },
     "distribution": {
-      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.0",
+      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.00",
       "iterations": 1,
       "x": 0,
       "z": 0,

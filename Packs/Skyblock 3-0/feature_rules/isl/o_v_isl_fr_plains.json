@@ -10,24 +10,56 @@
       "minecraft:biome_filter": [
         {
           "any_of": [
-            {"test": "has_biome_tag", "operator": "==", "value": "forest"},
-            {"test": "has_biome_tag", "operator": "==", "value": "plains"},
-            {"test": "has_biome_tag", "operator": "==", "value": "flower_forest"}
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "forest"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "plains"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "flower_forest"
+            }
           ]
         },
         {
           "all_of": [
-            {"test": "has_biome_tag", "operator": "!=", "value": "birch"},
-            {"test": "has_biome_tag", "operator": "!=", "value": "roofed"},
-            {"test": "has_biome_tag", "operator": "!=", "value": "taiga"},
-            {"test": "has_biome_tag", "operator": "!=", "value": "frozen"},
-            {"test": "has_biome_tag", "operator": "!=", "value": "mutated"}
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "birch"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "roofed"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "taiga"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "frozen"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "!=",
+              "value": "mutated"
+            }
           ]
         }
       ]
-    },    
+    },
     "distribution": {
-      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.0",
+      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.00",
       "iterations": 1,
       "x": 0,
       "z": 0,

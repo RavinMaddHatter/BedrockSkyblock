@@ -10,14 +10,22 @@
       "minecraft:biome_filter": [
         {
           "all_of": [
-            {"test": "has_biome_tag", "operator": "==", "value": "mutated"},
-            {"test": "has_biome_tag", "operator": "==", "value": "plains"}
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "mutated"
+            },
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "plains"
+            }
           ]
         }
       ]
-    },    
+    },
     "distribution": {
-      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.0",
+      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.00",
       "iterations": 1,
       "x": 0,
       "z": 0,
