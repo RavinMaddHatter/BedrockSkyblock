@@ -29,7 +29,7 @@
       ]
     },
     "distribution": {
-      "scatter_chance": "(variable.worldx == 0 && variable.worldz == 0) ? 100 : 1.00",
+      "scatter_chance": "1.00",
       "iterations": 1,
       "x": 0,
       "z": 0,
