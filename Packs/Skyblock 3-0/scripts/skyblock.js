@@ -113,9 +113,11 @@ function itemsOnSpawn(player){
 		player.removeTag("respawn")// remove the tag saying we are spawning
 		switch(challengeMode){//check the challenge mode
 			case "Classic"://classic game rules
-				player.runCommandAsync("give @s ice")// give ice
-				player.runCommandAsync("give @s lava_bucket")// give lava
-				giveSappling(player)//give a sapling
+				if(!player.hasTag("first_pawn")){
+					player.runCommandAsync("give @s ice")// give ice
+					player.runCommandAsync("give @s lava_bucket")// give lava
+					giveSappling(player)//give a sapling
+				}
 				break;
 			case "Nether Start"://if you are starting in the nether, different saplings are given
 				spawnInNether(player)
@@ -157,7 +159,9 @@ function itemsOnSpawn(player){
 				queuePlayer(player)//insures safe spawn
 				break;
 			case "Classic":
-				queuePlayer(player)//insures safe spawn
+				if(!player.hasTag("first_pawn")){
+					queuePlayer(player)//insures safe spawn
+				}
 				break;
 		}
 	}
@@ -243,8 +247,9 @@ function lookForSafety(player){
 		}else if(searchFail){
 			telleportRandom(player)
 			queuePlayer(player)
-		} else if(getGamemode()==="Classic" && !(challengeModes !=="Nether Start")){//function is also called at summon to set world spawn safely if in classic mode
+		} else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_pawn"))){//function is also called at summon to set world spawn safely if in classic mode
 			world.setDefaultSpawnLocation(player.location)
+			player.addTag("first_pawn")
 		}
 	}else{
 		queuePlayer(player)
@@ -334,7 +339,10 @@ function showSetupMenu(){
 		moderator.runCommand(`setblock ${spawnLocation.x} 319 ${spawnLocation.z} air`)
 		switch(challengeMode){
 			case "Classic":
-				moderator.teleport({x:0,y:72,z:0})
+				try{
+					world.scoreboard.addObjective("LocX","LocX")
+					world.scoreboard.addObjective("LocZ","LocZ")
+				}catch{}
 				break
 		}
 		itemsOnSpawn(moderator)
