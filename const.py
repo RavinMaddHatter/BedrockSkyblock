@@ -1,1 +1,1 @@
-workingPack = "Packs\Skyblock 3-0"
+workingPack = "Packs\Skyblock"

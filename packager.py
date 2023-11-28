@@ -8,7 +8,7 @@ from shutil import copyfile
 import shutil
 workingPack=const.workingPack
 
-packName = "Skyblock 3-0"
+packName = "Skyblock 3-x"
 
 
 shutil.copytree(workingPack, packName)

@@ -141,7 +141,7 @@ function itemsOnSpawn(player){
 			
 			case "Island Per User":
 				if( world.scoreboard.getObjective("LocX").hasParticipant(player)){
-					if(player.getSpawnPoint().x!=0 && player.getSpawnPoint().z!=0){
+					if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
 						let x = world.scoreboard.getObjective("LocX").getScore(player)
 						let z = world.scoreboard.getObjective("LocZ").getScore(player)
 						player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
@@ -247,9 +247,15 @@ function lookForSafety(player){
 		}else if(searchFail){
 			telleportRandom(player)
 			queuePlayer(player)
-		} else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_pawn"))){//function is also called at summon to set world spawn safely if in classic mode
-			world.setDefaultSpawnLocation(player.location)
+		}else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_pawn"))){//function is also called at summon to set world spawn safely if in classic mode
+			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})
 			player.addTag("first_pawn")
+		}else if(getGamemode()==="Island Per User" && (!player.hasTag("first_spawn"))){
+			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:(player.location.y+2), z:player.location.z})
+			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){
+				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})
+			}
+			player.addTag("first_spawn")
 		}
 	}else{
 		queuePlayer(player)
