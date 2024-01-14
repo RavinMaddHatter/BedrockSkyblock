@@ -113,7 +113,7 @@ function itemsOnSpawn(player){
 		player.removeTag("respawn")// remove the tag saying we are spawning
 		switch(challengeMode){//check the challenge mode
 			case "Classic"://classic game rules
-				if(!player.hasTag("first_pawn")){
+				if(!player.hasTag("first_spawn")){
 					player.runCommandAsync("give @s ice")// give ice
 					player.runCommandAsync("give @s lava_bucket")// give lava
 					giveSappling(player)//give a sapling
@@ -138,20 +138,25 @@ function itemsOnSpawn(player){
 				break;
 		}
 		switch(getGamemode()){
-			
 			case "Island Per User":
-				if( world.scoreboard.getObjective("LocX").hasParticipant(player)){
+				if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
+					if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
+						let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
+						let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
+						player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
+					}
+				}
+				if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
 					if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
 						let x = world.scoreboard.getObjective("LocX").getScore(player)
 						let z = world.scoreboard.getObjective("LocZ").getScore(player)
 						player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
 					}
-				}
-				else{
+				}else{
 					telleportRandom(player)
 					queuePlayer(player)//insures safe spawn
 				}
-				break
+				break;
 			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
 			case "Hardcore":// set spectator for hardcore
 			case "Semi Hardcore":
@@ -159,7 +164,7 @@ function itemsOnSpawn(player){
 				queuePlayer(player)//insures safe spawn
 				break;
 			case "Classic":
-				if(!player.hasTag("first_pawn")){
+				if(!player.hasTag("first_spawn")){
 					queuePlayer(player)//insures safe spawn
 				}
 				break;
@@ -229,10 +234,10 @@ function lookForSafety(player){
 							world.scoreboard.getObjective("LocX").setScore(player, centerBlock.x+offset[0])
 							world.scoreboard.getObjective("LocZ").setScore(player, centerBlock.z+offset[1])
 						}
-						break//exit for loop
+						break;//exit for loop
 					}
 				}
-				break//exit for loop
+				break;//exit for loop
 			}
 		}
 		if(skipped>10){
@@ -247,15 +252,23 @@ function lookForSafety(player){
 		}else if(searchFail){
 			telleportRandom(player)
 			queuePlayer(player)
-		}else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_pawn"))){//function is also called at summon to set world spawn safely if in classic mode
-			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})
-			player.addTag("first_pawn")
+		}else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_spawn"))){//function is also called at summon to set world spawn safely if in classic mode
+			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})//set worldspawn after island search completes
+			player.addTag("first_spawn")//add tag to record that player has already spawned previously
 		}else if(getGamemode()==="Island Per User" && (!player.hasTag("first_spawn"))){
-			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:(player.location.y+2), z:player.location.z})
-			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){
-				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})
+			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:78, z:player.location.z})//set player spawnpoint after first island search completes
+			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){//check if worldspawn hasn't been set to a real location yet
+				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})//set worldspawn after island search completes
 			}
-			player.addTag("first_spawn")
+			if(world.scoreboard.getObjective("sPointX") === undefined){
+				world.scoreboard.addObjective("sPointX","sPointX")//add scoreboard to record player spawnpoint x
+			}
+			if(world.scoreboard.getObjective("sPointZ") === undefined){
+				world.scoreboard.addObjective("sPointZ","sPointZ")//add scoreboard to record player spawnpoint z
+			}
+			world.scoreboard.getObjective("sPointX").setScore(player, player.location.x)//record player spawnpoint x
+			world.scoreboard.getObjective("sPointZ").setScore(player, player.location.z)//record player spawnpoint z
+			player.addTag("first_spawn")//add tag to record that player has already spawned previously
 		}
 	}else{
 		queuePlayer(player)
@@ -349,7 +362,7 @@ function showSetupMenu(){
 					world.scoreboard.addObjective("LocX","LocX")
 					world.scoreboard.addObjective("LocZ","LocZ")
 				}catch{}
-				break
+				break;
 		}
 		itemsOnSpawn(moderator)
 	});
