@@ -1,0 +1,31 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "void:void/0_n_v_fs_brown_mushroom"
+    },
+    "places_feature": "void:void/1_n_v_fb_brown_mushroom",
+    "iterations": "1*(126*256)",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        15
+      ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        15
+      ]
+    },
+    "y": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        125
+      ]
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:n_v_isl_fr_hell",
-      "places_feature": "isl:isl_hell_c_assy"
+      "places_feature": "isl:islands/isl_hell_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",

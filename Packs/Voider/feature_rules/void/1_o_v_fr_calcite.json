@@ -3,10 +3,10 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "void:1_o_v_fr_calcite",
-      "places_feature": "void:0_o_v_fs_calcite"
+      "places_feature": "void:void/0_o_v_fs_calcite"
     },
     "conditions": {
-      "placement_pass": "sky_pass",
+      "placement_pass": "first_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag", "operator": "!=", "value": "the_end",
@@ -22,3 +22,5 @@
     }
   }
 }
+
+

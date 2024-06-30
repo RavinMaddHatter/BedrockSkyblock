@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:n_v_isl_fr_basalt_deltas",
-      "places_feature": "isl:isl_basalt_deltas_c_assy"
+      "places_feature": "isl:islands/isl_basalt_deltas_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",

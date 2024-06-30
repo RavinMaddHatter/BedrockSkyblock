@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:o_v_isl_fr_snowy_slopes",
-      "places_feature": "isl:isl_snowy_slopes_c_assy"
+      "places_feature": "isl:islands/isl_snowy_slopes_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",

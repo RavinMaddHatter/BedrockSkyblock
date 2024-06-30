@@ -2,24 +2,24 @@
   "format_version": 2,
   "header": {
     "description": "An Infinitely generating skyblock map with structures that includes custom game rules that get set on first spawn. This pack works without experiments and can be played fully in survival. By \u00c2\u00a7aBud aj29 \u00c2\u00a7fand \u00c2\u00a7fRavinMaddHatter.",
-    "name": "Skyblock 3.2",
-    "uuid": "47c16e09-7c57-409a-a7d5-cf418f23ba2f",
+    "name": "Skyblock 3.3",
+    "uuid": "0b61eb91-af74-4064-a1c8-1ae14384888a",
     "version": [
       3,
-      2,
+      3,
       0
     ],
     "min_engine_version": [
       1,
-      20,
-      80
+      21,
+      0
     ]
   },
   "modules": [
     {
       "description": "",
       "type": "data",
-      "uuid": "7fb0b917-9ee5-4dde-9b7a-797109155d40",
+      "uuid": "b320c5e9-9f19-4ed1-82cf-a1c3fbb54d78",
       "version": [
         0,
         0,
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "uuid": "1228e8fe-947c-4e49-b50e-df92a7b7efdd",
+      "uuid": "f10ef470-9cd2-4efc-981a-5b8bc753af96",
       "version": [
         1,
         0,

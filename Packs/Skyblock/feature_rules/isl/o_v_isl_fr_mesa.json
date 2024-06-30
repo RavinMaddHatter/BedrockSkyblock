@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:o_v_isl_fr_mesa",
-      "places_feature": "isl:isl_mesa_c_assy"
+      "places_feature": "isl:islands/isl_mesa_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",

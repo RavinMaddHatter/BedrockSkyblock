@@ -1,0 +1,31 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "void:void/0_o_v_fs_deepslate_iron_ore"
+    },
+    "places_feature": "void:void/1_o_v_fb_deepslate_iron_ore",
+    "iterations": "1*(72*256)",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        15
+      ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        15
+      ]
+    },
+    "y": {
+      "distribution": "fixed_grid",
+      "extent": [
+        0,
+        71
+      ]
+    }
+  }
+}

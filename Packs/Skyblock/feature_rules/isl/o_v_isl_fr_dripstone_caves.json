@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:o_v_isl_fr_dripstone_caves",
-      "places_feature": "isl:isl_dripstone_caves_c_assy"
+      "places_feature": "isl:islands/isl_dripstone_caves_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",

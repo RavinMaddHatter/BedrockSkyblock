@@ -3,23 +3,23 @@
   "header": {
     "description": "World Voider. By \u00c2\u00a7aBud aj29 \u00c2\u00a7fand \u00c2\u00a7fRavinMaddHatter.",
     "name": "World Voider",
-    "uuid": "850b3b6b-1d5b-4177-9152-6977920b4107",
+    "uuid": "8a7fbb90-35e1-4ca3-abad-70281a91ad80",
     "version": [
       0,
-      1,
+      2,
       0
     ],
     "min_engine_version": [
       1,
-      20,
-      80
+      21,
+      0
     ]
   },
   "modules": [
     {
       "description": "",
       "type": "data",
-      "uuid": "8a202ed8-5f3a-4458-8dd8-a81aa548c66b",
+      "uuid": "2282ff59-71b1-47f2-afbc-e3471fbb21f2",
       "version": [
         0,
         0,

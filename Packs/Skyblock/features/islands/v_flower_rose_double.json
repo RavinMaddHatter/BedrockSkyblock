@@ -1,0 +1,13 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:aggregate_feature": {
+    "description": {
+      "identifier": "isl:islands/v_flower_rose_double"
+    },
+    "early_out": "first_failure",
+    "features": [
+      "isl:islands/v_flower_rose_lower",
+      "isl:islands/v_flower_rose_fixup"
+    ]
+  }
+}
