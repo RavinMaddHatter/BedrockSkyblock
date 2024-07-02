@@ -14,7 +14,7 @@ var softlock
 var netherRoof
 var freshLoad=true
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
-const gameTypes = ["Semi Hardcore", "Hardcore", "Ultra Hardcore" ,"Island Per User" ,"Classic"]
+const gameTypes = ["Semi Hardcore", "Hardcore", "Ultra Hardcore" ,"Island Per User" ,"Classic" ,"Pillowcore"]
 const challengeModes = ["Classic", "Nether Start", "No Items"]
 const scoreTypes = ["Dealth Counter", "Kill Counter","None"]
 const saplings = {"Oak":"sapling 1 0",
@@ -52,6 +52,7 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 		switch(getGamemode()){
 			case "Island Per User":
 			case "Semi Hardcore":
+			case "Pillowcore":
 				break;
 			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
 			case "Hardcore":// set spectator for hardcore
@@ -76,7 +77,7 @@ world.afterEvents.playerSpawn.subscribe((event) =>{
 		serverSetup()
 	}
 	else{
-		itemsOnSpawn(player)
+		respawnPlayer(player)
 	}
 });
 
@@ -105,10 +106,6 @@ function serverSetup(){
 	uiLoop = system.runTimeout(showSetupMenu,10)//this 
 }
 function itemsOnSpawn(player){
-	if(!player.hasTag("setup")){//checkes if player has ever joined before
-		player.addTag("respawn")//readies a spawn attempt
-		player.addTag("setup")// adds the setup to know the player has joined previously
-	}
 	if(player.hasTag("respawn")){// if spawning a player after death or for the first time
 		player.removeTag("respawn")// remove the tag saying we are spawning
 		switch(challengeMode){//check the challenge mode
@@ -137,38 +134,59 @@ function itemsOnSpawn(player){
 			default:
 				break;
 		}
-		switch(getGamemode()){
-			case "Island Per User":
-				if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
-					if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
-						let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
-						let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
-						player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
-					}
+	}
+}
+
+function respawnPlayer(player){
+	if(!player.hasTag("setup")){//checkes if player has ever joined before
+		player.addTag("respawn")//readies a spawn attempt
+		player.addTag("setup")// adds the setup to know the player has joined previously
+	}
+
+	switch(getGamemode()){
+		case "Island Per User":
+			itemsOnSpawn(player);
+			if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
+				if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
+					let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
+					let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
+					player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
 				}
-				if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
-					if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
-						let x = world.scoreboard.getObjective("LocX").getScore(player)
-						let z = world.scoreboard.getObjective("LocZ").getScore(player)
-						player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
-					}
-				}else{
-					telleportRandom(player)
-					queuePlayer(player)//insures safe spawn
+			}
+			if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
+				if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
+					let x = world.scoreboard.getObjective("LocX").getScore(player)
+					let z = world.scoreboard.getObjective("LocZ").getScore(player)
+					player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
 				}
-				break;
-			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
-			case "Hardcore":// set spectator for hardcore
-			case "Semi Hardcore":
+			}else{
 				telleportRandom(player)
 				queuePlayer(player)//insures safe spawn
-				break;
-			case "Classic":
-				if(!player.hasTag("first_spawn")){
-					queuePlayer(player)//insures safe spawn
-				}
-				break;
-		}
+			}
+			break;
+		case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
+		case "Hardcore":
+		case "Semi Hardcore":
+			itemsOnSpawn(player);
+			telleportRandom(player)
+			queuePlayer(player)//insures safe spawn
+			break;
+		case "Classic":
+			itemsOnSpawn(player);
+			if(!player.hasTag("first_spawn")){
+				queuePlayer(player)//insures safe spawn
+			}
+			break;
+		case "Pillowcore":
+			if(player.getSpawnPoint() === undefined &&
+			   player.hasTag("respawn")){
+				itemsOnSpawn(player);
+				telleportRandom(player)
+				queuePlayer(player)//insures safe spawn
+			}
+			// Otherwise for Pillowcore we just fall through to regular spawnning
+			break;
+
 	}
 }
 
@@ -364,7 +382,7 @@ function showSetupMenu(){
 				}catch{}
 				break;
 		}
-		itemsOnSpawn(moderator)
+		respawnPlayer(moderator)
 	});
 }
 function getGamemode(){
