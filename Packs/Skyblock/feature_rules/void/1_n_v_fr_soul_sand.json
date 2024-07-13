@@ -6,7 +6,7 @@
       "places_feature": "void:void/0_n_v_fs_soul_sand"
     },
     "conditions": {
-      "placement_pass": "first_pass",
+      "placement_pass": "sky_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag", "operator": "!=", "value": "the_end",
