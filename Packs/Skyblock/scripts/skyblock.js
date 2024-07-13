@@ -16,7 +16,7 @@ var freshLoad=true
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
 const gameTypes = ["Semi Hardcore", "Hardcore", "Ultra Hardcore" ,"Island Per User" ,"Classic" ,"Pillowcore"]
 const challengeModes = ["Classic", "Nether Start", "No Items"]
-const scoreTypes = ["Dealth Counter", "Kill Counter","None"]
+const scoreTypes = ["Death Counter", "Kill Counter","None"]
 const saplings = {"Oak":"sapling 1 0",
 				"Spruce":"sapling 1 1" , 
 				"Acacia":"sapling 1 4",
@@ -47,7 +47,7 @@ if (typeof settings!== "undefined"){//if skyblock settigns are not saved, try an
 world.afterEvents.entityDie.subscribe((event) => {//handles on death 
 	if(event.deadEntity.typeId == "minecraft:player"){
 		let player = event.deadEntity//set the player up so it is cleaner to access
-		world.scoreboard.getObjective("Dealth Counter").addScore(player,1)//death counter score board.
+		world.scoreboard.getObjective("Death Counter").addScore(player,1)//death counter score board.
 		player.addTag("respawn")//Setup to give items on respawn and know that this is a death
 		switch(getGamemode()){
 			case "Island Per User":
@@ -61,6 +61,7 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 	}
 	else{
 		if(typeof event.damageSource !== "undefined"){
+			console.warn("damagesource:" + event);
 			let killer = event.damageSource.damagingEntity//gets the player who killed the entity
 			if (killer.typeId  == "minecraft:player"){//if the damage source was a player
 				world.scoreboard.getObjective("Kill Counter").addScore(killer,1)//add to kill counter
@@ -106,34 +107,31 @@ function serverSetup(){
 	uiLoop = system.runTimeout(showSetupMenu,10)//this 
 }
 function itemsOnSpawn(player){
-	if(player.hasTag("respawn")){// if spawning a player after death or for the first time
-		player.removeTag("respawn")// remove the tag saying we are spawning
-		switch(challengeMode){//check the challenge mode
-			case "Classic"://classic game rules
-				if(!player.hasTag("first_spawn")){
-					player.runCommandAsync("give @s ice")// give ice
-					player.runCommandAsync("give @s lava_bucket")// give lava
-					giveSappling(player)//give a sapling
-				}
-				break;
-			case "Nether Start"://if you are starting in the nether, different saplings are given
-				spawnInNether(player)
-				if ([true,false].sample()){
-					player.runCommandAsync("give @s warped_fungus 2")//warped fungus
-					player.runCommandAsync("give @s warped_nylium 4")//giving 4 nylium to support growing more nylium if the first dies
-					player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow but you will need a bunch of you land on the wrong island
-				}
-				else{
-					player.runCommandAsync("give @s crimson_fungus 2")//give crimson
-					player.runCommandAsync("give @s crimson_nylium 4")//giving 4 nylium to support growing more nylium if the first dies and getting more saps
-					player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow
-				}
-				break;
-			case "No Items"://this is for the no-items mode, as of right now nothing happens. but keeping it in the switch just in case
-				break;
-			default:
-				break;
-		}
+	switch(challengeMode){//check the challenge mode
+		case "Classic"://classic game rules
+			if(!player.hasTag("first_spawn")){
+				player.runCommandAsync("give @s ice")// give ice
+				player.runCommandAsync("give @s lava_bucket")// give lava
+				giveSappling(player)//give a sapling
+			}
+			break;
+		case "Nether Start"://if you are starting in the nether, different saplings are given
+			spawnInNether(player)
+			if ([true,false].sample()){
+				player.runCommandAsync("give @s warped_fungus 2")//warped fungus
+				player.runCommandAsync("give @s warped_nylium 4")//giving 4 nylium to support growing more nylium if the first dies
+				player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow but you will need a bunch of you land on the wrong island
+			}
+			else{
+				player.runCommandAsync("give @s crimson_fungus 2")//give crimson
+				player.runCommandAsync("give @s crimson_nylium 4")//giving 4 nylium to support growing more nylium if the first dies and getting more saps
+				player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow
+			}
+			break;
+		case "No Items"://this is for the no-items mode, as of right now nothing happens. but keeping it in the switch just in case
+			break;
+		default:
+			break;
 	}
 }
 
@@ -143,50 +141,51 @@ function respawnPlayer(player){
 		player.addTag("setup")// adds the setup to know the player has joined previously
 	}
 
-	switch(getGamemode()){
-		case "Island Per User":
-			itemsOnSpawn(player);
-			if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
-				if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
-					let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
-					let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
-					player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
+	if (player.hasTag("respawn")){
+		player.removeTag("respawn")// remove the tag saying we are spawning
+		switch(getGamemode()){
+			case "Island Per User":
+				itemsOnSpawn(player);
+				if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
+					if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
+						let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
+						let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
+						player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
+					}
 				}
-			}
-			if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
-				if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
-					let x = world.scoreboard.getObjective("LocX").getScore(player)
-					let z = world.scoreboard.getObjective("LocZ").getScore(player)
-					player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
+				if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
+					if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
+						let x = world.scoreboard.getObjective("LocX").getScore(player)
+						let z = world.scoreboard.getObjective("LocZ").getScore(player)
+						player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
+					}
+				}else{
+					telleportRandom(player)
+					queuePlayer(player)//insures safe spawn
 				}
-			}else{
-				telleportRandom(player)
-				queuePlayer(player)//insures safe spawn
-			}
-			break;
-		case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
-		case "Hardcore":
-		case "Semi Hardcore":
-			itemsOnSpawn(player);
-			telleportRandom(player)
-			queuePlayer(player)//insures safe spawn
-			break;
-		case "Classic":
-			itemsOnSpawn(player);
-			if(!player.hasTag("first_spawn")){
-				queuePlayer(player)//insures safe spawn
-			}
-			break;
-		case "Pillowcore":
-			if(player.getSpawnPoint() === undefined &&
-			   player.hasTag("respawn")){
+				break;
+			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
+			case "Hardcore":
+			case "Semi Hardcore":
 				itemsOnSpawn(player);
 				telleportRandom(player)
 				queuePlayer(player)//insures safe spawn
-			}
-			// Otherwise for Pillowcore we just fall through to regular spawnning
-			break;
-
+				break;
+			case "Classic":
+				itemsOnSpawn(player);
+				if(!player.hasTag("first_spawn")){
+					queuePlayer(player)//insures safe spawn
+				}
+				break;
+			case "Pillowcore":
+				if(player.getSpawnPoint() === undefined){
+					itemsOnSpawn(player);
+					telleportRandom(player)
+					queuePlayer(player)//insures safe spawn
+				}
+				// Otherwise for Pillowcore we just fall through to regular spawnning
+				break;
+		}
 	}
 }
 
@@ -345,7 +344,7 @@ function showSetupMenu(){
 		
 		world.scoreboard.addObjective("Skyblock Settings","Skyblock Settings")
 		try{
-			world.scoreboard.addObjective("Dealth Counter","Dealth Counter")
+			world.scoreboard.addObjective("Death Counter","Death Counter")
 		}catch{
 			sayInChat(moderator,"Death Counter is already setup this could result in double counting deaths")
 		}
