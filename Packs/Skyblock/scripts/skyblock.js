@@ -61,7 +61,6 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 	}
 	else{
 		if(typeof event.damageSource !== "undefined"){
-			console.warn("damagesource:" + event);
 			let killer = event.damageSource.damagingEntity//gets the player who killed the entity
 			if (killer.typeId  == "minecraft:player"){//if the damage source was a player
 				world.scoreboard.getObjective("Kill Counter").addScore(killer,1)//add to kill counter
