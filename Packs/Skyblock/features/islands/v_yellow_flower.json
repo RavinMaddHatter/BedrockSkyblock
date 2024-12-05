@@ -5,7 +5,7 @@
       "identifier": "isl:islands/v_yellow_flower"
     },
     "places_block": {
-      "name": "minecraft:yellow_flower"
+      "name": "minecraft:dandelion"
     },
     "enforce_survivability_rules": false,
     "enforce_placement_rules": true

@@ -1,21 +1,21 @@
 {
-  "format_version": "1.16.0",
-  "minecraft:growing_plant_feature": {
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
     "description": {
       "identifier": "isl:islands/v_bamboo"
     },
-    "height_distribution":  [
-      [{"range_min": 1, "range_max": 8}, 2],
-      [{"range_min": 1, "range_max": 4}, 3],
-      [{"range_min": 1, "range_max": 2}, 10]
-    ],
-    "growth_direction": "up",
-    "age": {"range_min": 15, "range_max": 25},
-    "body_blocks": [
-      ["minecraft:bamboo", 1]
-    ],
-    "head_blocks": [
-      ["minecraft:bamboo", 1]
+    "trunk": {
+      "trunk_height": {
+        "range_min": 2,
+        "range_max": 8
+      },
+      "trunk_block": "minecraft:bamboo"
+    },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:grass_block",
+      "minecraft:podzol",
+      "minecraft:sand"
     ]
   }
 }

@@ -12,6 +12,6 @@
       }
     },
     "enforce_survivability_rules": false,
-    "enforce_placement_rules": false
+    "enforce_placement_rules": true
   }
 }

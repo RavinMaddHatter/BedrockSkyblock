@@ -21,6 +21,11 @@
           "huge_mushroom_bits": 14
         }
       }
-    }
+    },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:grass_block",
+      "minecraft:mycelium"
+    ]
   }
 }

@@ -12,55 +12,58 @@
           "any_of": [
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "overworld"
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "overworld_generation"
             }
           ]
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "jungle"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "flower_forest"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "swamp"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "mangrove_swamp"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "mesa"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "mooshroom_island"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "plains"
         },
         {
           "test": "has_biome_tag",
-          "operator": "!=",
+          "operator": "not",
           "value": "cherry_grove"
+        },
+        {
+          "test": "has_biome_tag",
+          "operator": "not",
+          "value": "pale_garden"
         },
         {
           "any_of": [
@@ -68,24 +71,22 @@
               "all_of": [
                 {
                   "test": "has_biome_tag",
-                  "operator": "!=",
+                  "operator": "not",
                   "value": "forest"
                 },
                 {
                   "test": "has_biome_tag",
-                  "operator": "!=",
+                  "operator": "not",
                   "value": "forest_generation"
                 }
               ]
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "extreme_hills"
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "taiga"
             }
           ]
@@ -94,12 +95,11 @@
           "any_of": [
             {
               "test": "has_biome_tag",
-              "operator": "!=",
+              "operator": "not",
               "value": "savanna"
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "mutated"
             }
           ]

@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:o_v_isl_fr_lush_caves",
-      "places_feature": "isl:islands/isl_lush_caves_c_assy"
+      "places_feature": "isl:islands\/isl_lush_caves_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",
@@ -20,7 +20,7 @@
       ]
     },
     "distribution": {
-      "scatter_chance": "1.00",
+      "scatter_chance": 1.0,
       "iterations": 1,
       "x": 0,
       "z": 0,

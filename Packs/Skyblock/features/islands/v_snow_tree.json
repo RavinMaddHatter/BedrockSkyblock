@@ -26,8 +26,12 @@
     },
     "may_grow_on": [
       "minecraft:grass",
-      "minecraft:powder_snow"
+      "minecraft:powder_snow",
+      "minecraft:snow_layer"
     ],
-    "may_replace": [ "minecraft:air" ]
+    "may_replace": [
+      "minecraft:air",
+      "minecraft:snow_layer"
+    ]
   }
 }

@@ -5,8 +5,8 @@
       "identifier": "isl:islands/isl_cherry_grove_b_accy_3"
     },
     "places_feature": "minecraft:cherry_tree_with_beehive_feature",
-    "scatter_chance": 5,
-    "iterations": 1,
+    "scatter_chance": 10,
+    "iterations": 3,
     "x": {
       "distribution": "uniform",
       "extent": [ 5, 12 ]

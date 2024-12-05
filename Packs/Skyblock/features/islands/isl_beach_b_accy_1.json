@@ -5,7 +5,7 @@
       "identifier": "isl:islands/isl_beach_b_accy_1"
     },
     "places_feature": "isl:islands/v_reeds",
-    "scatter_chance": 50,
+    "scatter_chance": 100,
     "iterations": 1,
     "x": {
       "distribution": "uniform",

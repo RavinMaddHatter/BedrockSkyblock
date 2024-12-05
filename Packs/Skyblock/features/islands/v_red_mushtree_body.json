@@ -31,6 +31,11 @@
         }
       }
     },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:grass_block",
+      "minecraft:mycelium"
+    ],
     "may_grow_through": [
       "minecraft:air",
       "minecraft:structure_void",

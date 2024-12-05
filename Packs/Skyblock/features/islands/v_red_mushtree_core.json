@@ -21,6 +21,11 @@
       "variation_chance": 0,
       "leaf_block": "minecraft:structure_void"
     },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:grass_block",
+      "minecraft:mycelium"
+    ],
     "may_grow_through": [
       "minecraft:air",
       "minecraft:dirt",

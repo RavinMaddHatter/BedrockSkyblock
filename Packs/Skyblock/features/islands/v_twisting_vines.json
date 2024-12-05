@@ -1,21 +1,20 @@
 {
-  "format_version": "1.16.0",
-  "minecraft:growing_plant_feature": {
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
     "description": {
       "identifier": "isl:islands/v_twisting_vines"
     },
-    "height_distribution":  [
-      [{"range_min": 1, "range_max": 4}, 2],
-      [{"range_min": 1, "range_max": 3}, 3],
-      [{"range_min": 1, "range_max": 2}, 10]
-    ],
-    "growth_direction": "up",
-    "age": {"range_min": 15, "range_max": 25},
-    "body_blocks": [
-      ["minecraft:twisting_vines", 1]
-    ],
-    "head_blocks": [
-      ["minecraft:twisting_vines", 1]
+    "trunk": {
+      "trunk_height": {
+        "range_min": 2,
+        "range_max": 4
+      },
+      "trunk_block": "minecraft:twisting_vines"
+    },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:warped_nylium",
+      "minecraft:netherrack"
     ]
   }
 }

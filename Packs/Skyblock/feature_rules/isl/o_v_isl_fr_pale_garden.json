@@ -1,0 +1,30 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "isl:o_v_isl_fr_pale_garden",
+      "places_feature": "isl:islands\/isl_pale_garden_c_assy"
+    },
+    "conditions": {
+      "placement_pass": "final_pass",
+      "minecraft:biome_filter": [
+        {
+          "any_of": [
+            {
+              "test": "has_biome_tag",
+              "operator": "==",
+              "value": "pale_garden"
+            }
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "scatter_chance": 1.0,
+      "iterations": 1,
+      "x": 0,
+      "z": 0,
+      "y": 63
+    }
+  }
+}

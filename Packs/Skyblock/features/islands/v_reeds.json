@@ -1,21 +1,20 @@
 {
-  "format_version": "1.16.0",
-  "minecraft:growing_plant_feature": {
+  "format_version": "1.13.0",
+  "minecraft:tree_feature": {
     "description": {
       "identifier": "isl:islands/v_reeds"
     },
-    "height_distribution":  [
-      [{"range_min": 1, "range_max": 3}, 2],
-      [{"range_min": 1, "range_max": 1}, 4],
-      [{"range_min": 1, "range_max": 2}, 8]
-    ],
-    "growth_direction": "up",
-    "age": {"range_min": 0, "range_max": 0},
-    "body_blocks": [
-      ["minecraft:reeds", 1]
-    ],
-    "head_blocks": [
-      ["minecraft:reeds", 1]
+    "trunk": {
+      "trunk_height": {
+        "range_min": 1,
+        "range_max": 3
+      },
+      "trunk_block": "minecraft:reeds"
+    },
+    "may_grow_on": [
+      "minecraft:dirt",
+      "minecraft:grass_block",
+      "minecraft:sand"
     ]
   }
 }

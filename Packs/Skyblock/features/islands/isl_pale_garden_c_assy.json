@@ -1,0 +1,16 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:aggregate_feature": {
+    "description": {
+      "identifier": "isl:islands/isl_pale_garden_c_assy"
+    },
+    "features": [
+      "isl:islands/v_base_island_c_assembly",
+      "isl:islands/isl_pale_garden_a_lyr_4_b_main",
+      "isl:islands/isl_pale_garden_b_accy_1",
+      "isl:islands/isl_pale_garden_b_accy_2",
+      "isl:islands/isl_pale_garden_b_accy_3",
+      "isl:islands/isl_pale_garden_b_accy_5"
+    ]
+  }
+}

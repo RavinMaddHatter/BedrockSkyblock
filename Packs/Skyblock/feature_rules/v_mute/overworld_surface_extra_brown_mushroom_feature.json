@@ -12,15 +12,18 @@
           "any_of": [
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "overworld"
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "overworld_generation"
             }
           ]
+        },
+        {
+          "test": "has_biome_tag",
+          "operator": "not",
+          "value": "pale_garden"
         }
       ]
     },
