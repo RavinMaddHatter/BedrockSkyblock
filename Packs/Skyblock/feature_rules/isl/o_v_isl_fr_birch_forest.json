@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "isl:o_v_isl_fr_birch_forest",
-      "places_feature": "isl:islands\/isl_birch_forest_c_assy"
+      "places_feature": "isl:islands/isl_birch_forest_c_assy"
     },
     "conditions": {
       "placement_pass": "final_pass",
@@ -20,7 +20,7 @@
       ]
     },
     "distribution": {
-      "scatter_chance": 1.0,
+      "scatter_chance": "(math.mod((variable.originx/16)*(variable.originz/16),26)==1)?100:0",
       "iterations": 1,
       "x": 0,
       "z": 0,
