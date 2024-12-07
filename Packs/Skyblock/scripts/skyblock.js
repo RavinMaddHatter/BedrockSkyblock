@@ -6,9 +6,10 @@ var challengeMode = "Classic"
 var saplingType = "Random" 
 var searchQueued=false
 var moderator
-var scatterMax = Math.floor(3000)
+var scatterMax = Math.floor(200)
 var spawnLocation 
 var playersSearching = []
+var islands = []
 var softLockcount=0
 var softlock
 var netherRoof
@@ -224,59 +225,51 @@ function allSearch(){
 	
 }
 function telleportRandom(player){
-	let x = randomIntFromInterval(-scatterMax, scatterMax)//random block picked between user set distances 
-	let z = randomIntFromInterval(-scatterMax, scatterMax)//random block picked between user set distances 
-	player.teleport({x:x,y:319,z:z})//set up high to prevent falling to death
+	const factors = [[-25, -25], [-25, 1], [-23, -17], [-23, 9], [-21, -5], [-21, 21], [-19, -11], [-19, 15], [-23, -17], [-17, 3], [-15, -7], [-15, 19], [-19, -11], [-11, 7], [-9, -3], [-9, 23], [-15, -7], [-7, 11], [-21, -5], [-5, 5], [-9, -3], [-3, 17], [-1, -1], [-1, 25], [-25, 1], [1, 1], [-17, 3], [3, 9], [-5, 5], [5, 21], [-11, 7], [7, 15], [-23, 9], [3, 9], [-7, 11], [11, 19], [-19, 15], [7, 15], [-3, 17], [17, 23], [-15, 19], [11, 19], [-21, 21], [5, 21], [-9, 23], [17, 23], [-1, 25], [25, 25]]
+	let base = factors[Math.floor(Math.random()*factors.length)]
+	if (Math.round(Math.random())){
+		base=base.reverse();
+	}
+	let maxChunk = scatterMax/(16*26)
+	base[0]=base[0]+Math.floor(Math.random()*maxChunk)*26
+	base[1]=base[1]+Math.floor(Math.random()*maxChunk)*26
+	player.teleport({x:base[0]*16+8,y:319,z:base[1]*16+8});
+	console.warn(base)
+	console.warn(base[0]*base[1]%26)
 }
 	
 function lookForSafety(player){
 	let searchFail=true//sets default to retry
-	let centerBlock={x:player.location.x - player.location.x%16+8,//finds center if chunk
+	let centerBlock={x:player.location.x,//finds center if chunk
 					 y: 70,//block in every island
-					 z: player.location.z - player.location.z%16+8}//finds center if chunk
-	let block = player.dimension.getBlock({x:centerBlock.x,y:centerBlock.y,z:centerBlock.z})
+					 z: player.location.z}//finds center if chunk
+	let block = player.dimension.getBlock(centerBlock)
 	let skipped=0
 	if(typeof block !=="undefined"){
-		for(let offset of searchPattern){//search pattern looks like [[0,0],[0,16],[16,16],...,[-80,0]]
-			let block = player.dimension.getBlock({x:centerBlock.x+offset[0],y:centerBlock.y,z:centerBlock.z+offset[1]})
-			if( typeof block ==="undefined"){
-				skipped+=1
-				softlock=true
-			} else if (player.runCommand(`testforblock ${centerBlock.x+offset[0]} ${70} ${centerBlock.z+offset[1]} air`).successCount==0){// because block.idType isnt a thing yet and tryTeleport doesnt work.
-				for(let y = 60;  y<250;y++){
-					//Dont Judge me it works V
-					if ((player.runCommand(`testforblock ${centerBlock.x+offset[0]} ${y} ${centerBlock.z+offset[1]} air`).successCount==0) && (player.runCommand(`testforblock ${centerBlock.x+offset[0]} ${y+2} ${centerBlock.z+offset[1]} air`).successCount>0)&& (player.runCommand(`testforblock ${centerBlock.x+offset[0]} ${y+1} ${centerBlock.z+offset[1]} air`).successCount>0)){
-						player.teleport({x:centerBlock.x+offset[0],y:y+1,z:centerBlock.z+offset[1]})
-						searchFail=false//dont retry
-						if (getGamemode() == "Island Per User"){
-							world.scoreboard.getObjective("LocX").setScore(player, centerBlock.x+offset[0])
-							world.scoreboard.getObjective("LocZ").setScore(player, centerBlock.z+offset[1])
-						}
-						break;//exit for loop
-					}
+		for(let y = 60;  y<250;y++){
+			block = player.dimension.getBlock({x:centerBlock.x,y:y,z:centerBlock.z});
+			let feet = player.dimension.getBlock({x:centerBlock.x,y:y+1,z:centerBlock.z});
+			let head = player.dimension.getBlock({x:centerBlock.x,y:y+2,z:centerBlock.z});
+			if(!block.isAir && feet.isAir&&head.isAir){
+				player.teleport({x:centerBlock.x,y:y+1,z:centerBlock.z});
+				if (getGamemode() == "Island Per User"){
+					world.scoreboard.getObjective("LocX").setScore(player, centerBlock.x);
+					world.scoreboard.getObjective("LocZ").setScore(player, centerBlock.z);
 				}
-				break;//exit for loop
+				searchFail=false;
+				break;
 			}
 		}
-		if(skipped>10){
-			if(softLockcount>20){
-				telleportRandom(player)
-				queuePlayer(player)
-			}else{
-				
-				queuePlayer(player)
-			}
-			return
-		}else if(searchFail){
+		if(searchFail){
 			telleportRandom(player)
 			queuePlayer(player)
 		}else if(getGamemode()==="Classic" && (challengeModes !=="Nether Start") && (!player.hasTag("first_spawn"))){//function is also called at summon to set world spawn safely if in classic mode
-			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})//set worldspawn after island search completes
+			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+1), z:player.location.z})//set worldspawn after island search completes
 			player.addTag("first_spawn")//add tag to record that player has already spawned previously
 		}else if(getGamemode()==="Island Per User" && (!player.hasTag("first_spawn"))){
-			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:78, z:player.location.z})//set player spawnpoint after first island search completes
+			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:y+1, z:player.location.z})//set player spawnpoint after first island search completes
 			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){//check if worldspawn hasn't been set to a real location yet
-				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+2), z:player.location.z})//set worldspawn after island search completes
+				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+1), z:player.location.z})//set worldspawn after island search completes
 			}
 			if(world.scoreboard.getObjective("sPointX") === undefined){
 				world.scoreboard.addObjective("sPointX","sPointX")//add scoreboard to record player spawnpoint x
@@ -301,6 +294,7 @@ function queuePlayer(player){
 		system.runTimeout(allSearch,10)// give the world 1 second to load before checking blocks
 	}
 }
+
 function showSetupMenu(){
 	let setupForm = new ModalFormData()
 	setupForm.title("Change Game Settings")
@@ -336,7 +330,7 @@ function showSetupMenu(){
 			moderator.runCommandAsync("gamerule randomtickspeed " + randomTick)
 		}
 		if(isNumeric(scatterMax)){
-			scatterMax=parseInt(scatterMax)
+			scatterMax=parseInt(scatterMax);
 		}
 		let saplingTypes=Object.keys(saplings)
 		saplingType = saplingTypes[sapIndex]
