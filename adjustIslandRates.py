@@ -8,7 +8,7 @@ workingPack=const.workingPack
 
 def adjustProb(fileName):
     #scatter_chance = f"{islandProbability:.2f}"
-    scatter_chance = "(math.mod((variable.originx/16)*(variable.originz/16),26)==1)?100:0"
+    scatter_chance = "(math.mod(math.abs(variable.originx/16)*math.abs(variable.originz/16),26))==((variable.originz*variable.originx)>0?1:25)?100:0"
     with open(fileName) as file:
         data = json.load(file)
     data["minecraft:feature_rules"]["distribution"]["scatter_chance"]=scatter_chance
