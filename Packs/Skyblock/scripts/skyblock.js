@@ -15,9 +15,8 @@ var softlock
 var netherRoof
 var freshLoad=true
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
-const gameTypes = ["Semi Hardcore", "Hardcore", "Ultra Hardcore" ,"Island Per User" ,"Classic" ,"Pillowcore"]
+const gameTypes = ["Island on Death", "No Regen" ,"Island Per User" ,"Classic" ,"Pillowcore"]
 const challengeModes = ["Classic", "Nether Start", "No Items"]
-const scoreTypes = ["Dealth Counter", "Kill Counter","None"]
 const saplings = {"Oak":"sapling 1 0",
 				"Spruce":"sapling 1 1" , 
 				"Acacia":"sapling 1 4",
@@ -30,12 +29,12 @@ const saplings = {"Oak":"sapling 1 0",
 				"None":"None"}
 
 
-let settings=world.scoreboard.getObjective("Skyblock Settings")
-if (typeof settings!== "undefined"){//if skyblock settigns are not saved, try and set up the server.
-	let sapIndex = settings.getScore("sapIndex")//Loading settings
-	let styleIdx = settings.getScore("styleIdx")//Loading settings
-	scatterMax = settings.getScore("scatterMax")//Loading settings
-	netherRoof = settings.getScore("NetherRoof")//Loading settings
+let worldConfigured=world.getDynamicProperty("worldConfigured")
+if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved, try and set up the server.
+	let sapIndex = world.getDynamicProperty("sapIndex")//Loading settings
+	let styleIdx = world.getDynamicProperty("styleIdx")//Loading settings
+	scatterMax = world.getDynamicProperty("scatterMax")//Loading settings
+	netherRoof = world.getDynamicProperty("NetherRoof")//Loading settings
 	let saplingTypes=Object.keys(saplings)//getting keys for sappling types
 	saplingType = saplingTypes[sapIndex]//loading the sappling selected
 	challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
@@ -47,33 +46,23 @@ if (typeof settings!== "undefined"){//if skyblock settigns are not saved, try an
 // subscriptions
 world.afterEvents.entityDie.subscribe((event) => {//handles on death 
 	if(event.deadEntity.typeId == "minecraft:player"){
-		let player = event.deadEntity//set the player up so it is cleaner to access
-		world.scoreboard.getObjective("Dealth Counter").addScore(player,1)//death counter score board.
-		player.addTag("respawn")//Setup to give items on respawn and know that this is a death
+		event.deadEntity.addTag("respawn")//Setup to give items on respawn and know that this is a death
 		switch(getGamemode()){
 			case "Island Per User":
-			case "Semi Hardcore":
+			case "Island on Death":
 			case "Pillowcore":
 				break;
 			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
 			case "Hardcore":// set spectator for hardcore
-				player.runCommandAsync("gamemode spectator @s")// place player in spectator
-		}
-	}
-	else{
-		if(typeof event.damageSource !== "undefined"){
-			let killer = event.damageSource.damagingEntity//gets the player who killed the entity
-			if (killer.typeId  == "minecraft:player"){//if the damage source was a player
-				world.scoreboard.getObjective("Kill Counter").addScore(killer,1)//add to kill counter
-			}
+				event.deadEntity.runCommandAsync("gamemode spectator @s")// place player in spectator
 		}
 	}
 });
 
 world.afterEvents.playerSpawn.subscribe((event) =>{
 	let player = event.player
-	let settings=world.scoreboard.getObjective("Skyblock Settings")
-	if (settings=== undefined){//if skyblock settigns are not saved, try and set up the server.
+	let worldConfigured=world.getDynamicProperty("worldConfigured")
+	if (worldConfigured === undefined){//if skyblock settigns are not saved, try and set up the server.
 		moderator=player
 		serverSetup()
 	}
@@ -93,7 +82,8 @@ function setNetherRoof(){
 			playerchunk.y=127
 			for(let offset of searchPattern){
 				let checkchunk={x:playerchunk.x+offset[0],y:127,z:playerchunk.z+offset[1]}
-				if(player.runCommand(`testforblock ${checkchunk.x+8} ${checkchunk.y} ${checkchunk.z+8} barrier`).successCount==0){
+				let block = player.dimension.getBlock(checkchunk);
+				if(block.type == "minecraft:air"){
 					player.runCommandAsync(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
 				}
 			}//
@@ -143,23 +133,14 @@ function respawnPlayer(player){
 		player.addTag("respawn")//readies a spawn attempt
 		player.addTag("setup")// adds the setup to know the player has joined previously
 	}
-
+	console.warn(getGamemode())
 	switch(getGamemode()){
 		case "Island Per User":
 			itemsOnSpawn(player);
-			if(player.getSpawnPoint() === undefined && world.scoreboard.getObjective("sPointX") !== undefined && world.scoreboard.getObjective("sPointZ") !== undefined){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in scoreboard
-				if(world.scoreboard.getObjective("sPointX").hasParticipant(player) && world.scoreboard.getObjective("sPointZ").hasParticipant(player)){	
-					let spX = world.scoreboard.getObjective("sPointX").getScore(player)//set x variable from island spawnpoint in scoreboard
-					let spZ = world.scoreboard.getObjective("sPointZ").getScore(player)//set z variable from island spawnpoint in scoreboard
-					player.setSpawnPoint({dimension:player.dimension, x:spX, y:78, z:spZ})//reset player spawnpoint to island if it's been cleared by breaking bed
-				}
-			}
-			if(world.scoreboard.getObjective("LocX").hasParticipant(player)){
-				if(player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){
-					let x = world.scoreboard.getObjective("LocX").getScore(player)
-					let z = world.scoreboard.getObjective("LocZ").getScore(player)
-					player.runCommandAsync(`spreadplayers ${x} ${z} 1 10 @s`)
-				}
+			if(player.getSpawnPoint() === undefined && player.getDynamicProperty("hasIsland")){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in getDynamicProperty
+				let spX = player.getDynamicProperty("islandX")//set x variable from island spawnpoint in scoreboard
+				let spZ = player.getDynamicProperty("islandZ")//set z variable from island spawnpoint in scoreboard
+				player.runCommandAsync(`spreadplayers ${spX} ${spZ} 1 10 @s`)//spawns them on island
 			}else{
 				telleportRandom(player)
 				queuePlayer(player)//insures safe spawn
@@ -167,7 +148,7 @@ function respawnPlayer(player){
 			break;
 		case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
 		case "Hardcore":
-		case "Semi Hardcore":
+		case "Island on Death":
 			itemsOnSpawn(player);
 			telleportRandom(player)
 			queuePlayer(player)//insures safe spawn
@@ -179,8 +160,7 @@ function respawnPlayer(player){
 			}
 			break;
 		case "Pillowcore":
-			if(player.getSpawnPoint() === undefined &&
-			   player.hasTag("respawn")){
+			if(player.getSpawnPoint() === undefined && player.hasTag("respawn")){
 				itemsOnSpawn(player);
 				telleportRandom(player)
 				queuePlayer(player)//insures safe spawn
@@ -211,19 +191,7 @@ function giveSappling(player){
 function spawnInNether(player){
 	player.teleport({x:0,y:72,z:0},{dimension:world.getDimension("minecraft:nether")})
 }
-function allSearch(){
-	searchQueued=false
-	if (softlock){
-		softLockcount+=1
-	}
-	softlock=false
-	let tempplayersSearching=playersSearching
-	playersSearching=[]
-	for(let player of tempplayersSearching){
-		lookForSafety(player)
-	}
-	
-}
+
 function telleportRandom(player){
 	const factors = [[-25, -25], [-25, 1], [-23, -17], [-23, 9], [-21, -5], [-21, 21], [-19, -11], [-19, 15], [-23, -17], [-17, 3], [-15, -7], [-15, 19], [-19, -11], [-11, 7], [-9, -3], [-9, 23], [-15, -7], [-7, 11], [-21, -5], [-5, 5], [-9, -3], [-3, 17], [-1, -1], [-1, 25], [-25, 1], [1, 1], [-17, 3], [3, 9], [-5, 5], [5, 21], [-11, 7], [7, 15], [-23, 9], [3, 9], [-7, 11], [11, 19], [-19, 15], [7, 15], [-3, 17], [17, 23], [-15, 19], [11, 19], [-21, 21], [5, 21], [-9, 23], [17, 23], [-1, 25], [25, 25]]
 	let base = factors[Math.floor(Math.random()*factors.length)]
@@ -231,11 +199,9 @@ function telleportRandom(player){
 		base=base.reverse();
 	}
 	let maxChunk = scatterMax/(16*26)
-	base[0]=base[0]+Math.floor(Math.random()*maxChunk)*26
-	base[1]=base[1]+Math.floor(Math.random()*maxChunk)*26
+	base[0]=base[0]+Math.floor(Math.random()*maxChunk)*26*base[0]/Math.abs(base[0])
+	base[1]=base[1]+Math.floor(Math.random()*maxChunk)*26*base[1]/Math.abs(base[1])
 	player.teleport({x:base[0]*16+8,y:319,z:base[1]*16+8});
-	console.warn(base)
-	console.warn(base[0]*base[1]%26)
 }
 	
 function lookForSafety(player){
@@ -253,8 +219,8 @@ function lookForSafety(player){
 			if(!block.isAir && feet.isAir&&head.isAir){
 				player.teleport({x:centerBlock.x,y:y+1,z:centerBlock.z});
 				if (getGamemode() == "Island Per User"){
-					world.scoreboard.getObjective("LocX").setScore(player, centerBlock.x);
-					world.scoreboard.getObjective("LocZ").setScore(player, centerBlock.z);
+					player.setDynamicProperty("islandX", centerBlock.x);
+					player.setDynamicProperty("islandZ", centerBlock.z);
 				}
 				searchFail=false;
 				break;
@@ -271,14 +237,8 @@ function lookForSafety(player){
 			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){//check if worldspawn hasn't been set to a real location yet
 				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+1), z:player.location.z})//set worldspawn after island search completes
 			}
-			if(world.scoreboard.getObjective("sPointX") === undefined){
-				world.scoreboard.addObjective("sPointX","sPointX")//add scoreboard to record player spawnpoint x
-			}
-			if(world.scoreboard.getObjective("sPointZ") === undefined){
-				world.scoreboard.addObjective("sPointZ","sPointZ")//add scoreboard to record player spawnpoint z
-			}
-			world.scoreboard.getObjective("sPointX").setScore(player, player.location.x)//record player spawnpoint x
-			world.scoreboard.getObjective("sPointZ").setScore(player, player.location.z)//record player spawnpoint z
+			player.setDynamicProperty("islandX",player.location.x)//record player spawnpoint x
+			player.setDynamicProperty("islandZ",player.location.z)//record player spawnpoint z
 			player.addTag("first_spawn")//add tag to record that player has already spawned previously
 		}
 	}else{
@@ -287,21 +247,31 @@ function lookForSafety(player){
 }
 function queuePlayer(player){
 	player.runCommandAsync("tp @s ~ 319 ~")
-	
 	playersSearching.push(player)// sets this player to be searched again in the future
 	if (!searchQueued){// if someone else is already queued the search dont queue it again
 		searchQueued=true// queue the search
 		system.runTimeout(allSearch,10)// give the world 1 second to load before checking blocks
 	}
 }
-
+function allSearch(){
+	searchQueued=false
+	if (softlock){
+		softLockcount+=1
+	}
+	softlock=false
+	let tempplayersSearching=playersSearching
+	playersSearching=[]
+	for(let player of tempplayersSearching){
+		lookForSafety(player)
+	}
+	
+}
 function showSetupMenu(){
 	let setupForm = new ModalFormData()
 	setupForm.title("Change Game Settings")
 	setupForm.dropdown("Game Style",gameTypes, 0)
 	setupForm.dropdown("Sapling",Object.keys(saplings), 0)
 	setupForm.dropdown("Challenge Mode",challengeModes, 0)
-	setupForm.dropdown("Pause Scoreboard",scoreTypes, 0)
 	setupForm.textField("Scatter Max", "3000", "3000")// done
 	setupForm.textField("Random Tick Speed", "1", "1")// done
 	setupForm.toggle("Nether Roof (allows Natural Ghasts)")
@@ -313,10 +283,9 @@ function showSetupMenu(){
 		let gameStyle = response.formValues[0]
 		let sapIndex = response.formValues[1]
 		let styleIdx = response.formValues[2]
-		let scoreIdx = response.formValues[3] 
-		scatterMax = response.formValues[4]
-		let randomTick = response.formValues[5]
-		let netherRoof = response.formValues[6]
+		scatterMax = response.formValues[3]
+		let randomTick = response.formValues[4]
+		let netherRoof = response.formValues[5]
 		moderator.runCommandAsync("gamerule sendcommandfeedback false")
 		switch(getGamemode()){
 			case "Ultra Hardcore":
@@ -337,55 +306,23 @@ function showSetupMenu(){
 		challengeMode = challengeModes[styleIdx]
 		world.setDefaultSpawnLocation({x:0,y:72,z:0})
 		
-		world.scoreboard.addObjective("Skyblock Settings","Skyblock Settings")
-		try{
-			world.scoreboard.addObjective("Dealth Counter","Dealth Counter")
-		}catch{
-			sayInChat(moderator,"Death Counter is already setup this could result in double counting deaths")
-		}
-		try{
-			world.scoreboard.addObjective("Kill Counter","Kill Counter")
-		}catch{
-			sayInChat(moderator,"Kill Counter is already setup this could result in double counting Kill")
-		}
-		if(scoreTypes[scoreIdx]!="None"){
-			world.scoreboard.setObjectiveAtDisplaySlot("List",{objective:world.scoreboard.getObjective(scoreTypes[scoreIdx])})
-		}
-		world.scoreboard.getObjective("Skyblock Settings").setScore("gameStyle", gameStyle)
-		world.scoreboard.getObjective("Skyblock Settings").setScore("sapIndex", sapIndex)
-		world.scoreboard.getObjective("Skyblock Settings").setScore("styleIdx", styleIdx)
-		world.scoreboard.getObjective("Skyblock Settings").setScore("scatterMax", scatterMax)
-		world.scoreboard.getObjective("Skyblock Settings").setScore("NetherRoof", netherRoof)
+		world.setDynamicProperty("gameStyle", gameStyle)
+		world.setDynamicProperty("sapIndex", sapIndex)
+		world.setDynamicProperty("styleIdx", styleIdx)
+		world.setDynamicProperty("scatterMax", scatterMax)
+		world.setDynamicProperty("NetherRoof", netherRoof)
 		if(netherRoof){
 			system.runInterval(setNetherRoof,10)
 		}
 		
-		if(gameTypes[gameStyle]==="Island Per User"){
-			try{
-				world.scoreboard.addObjective("LocX","LocX")
-				world.scoreboard.addObjective("LocZ","LocZ")
-			}catch{}
-		}
 		system.clearRun(uiLoop)
 		moderator.runCommand(`setblock ${spawnLocation.x} 319 ${spawnLocation.z} air`)
-		switch(challengeMode){
-			case "Classic":
-				try{
-					world.scoreboard.addObjective("LocX","LocX")
-					world.scoreboard.addObjective("LocZ","LocZ")
-				}catch{}
-				break;
-		}
+		worldConfigured=world.setDynamicProperty("worldConfigured",true)
 		respawnPlayer(moderator)
 	});
 }
 function getGamemode(){
-	let gamemode="None"
-	let settings=world.scoreboard.getObjective("Skyblock Settings")
-	if (typeof settings !== "undefined"){//if skyblock settigns are not saved, try and set up the server.
-		let gameStyle = settings.getScore("gameStyle")//Loading settings
-		gamemode = gameTypes[gameStyle]//loading game type
-	}
+	let gamemode=gameTypes[world.getDynamicProperty("gameStyle")]
 	return gamemode
 }
 //helper functions
