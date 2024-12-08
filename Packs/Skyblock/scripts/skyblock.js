@@ -38,6 +38,8 @@ if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved,
 	let saplingTypes=Object.keys(saplings)//getting keys for sappling types
 	saplingType = saplingTypes[sapIndex]//loading the sappling selected
 	challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
+	console.warn(netherRoof)
+	console.warn(freshLoad)
 	if(netherRoof && freshLoad){
 		system.runInterval(setNetherRoof,10)
 		freshLoad=false
@@ -84,7 +86,7 @@ function setNetherRoof(){
 				let checkchunk={x:playerchunk.x+offset[0],y:127,z:playerchunk.z+offset[1]}
 				let block = player.dimension.getBlock(checkchunk);
 				if (block){
-					if(block.type == "minecraft:air"){
+					if(block.type.id == "minecraft:air"){
 						player.runCommandAsync(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
 					}
 				}
