@@ -52,7 +52,7 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 			case "Island on Death":
 			case "Pillowcore":
 				break;
-			case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
+			case "No Regen":// Fall through to Hard core. Nothing is different about UHC
 			case "Hardcore":// set spectator for hardcore
 				event.deadEntity.runCommandAsync("gamemode spectator @s")// place player in spectator
 		}
@@ -62,12 +62,12 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 world.afterEvents.playerSpawn.subscribe((event) =>{
 	let player = event.player
 	let worldConfigured=world.getDynamicProperty("worldConfigured")
-	if (worldConfigured === undefined){//if skyblock settigns are not saved, try and set up the server.
+	if (event.player.hasTag("respawn")){
+		respawnPlayer(event.player)
+	}
+	if (!worldConfigured){//if skyblock settigns are not saved, try and set up the server.
 		moderator=player
 		serverSetup()
-	}
-	else{
-		respawnPlayer(player)
 	}
 });
 
@@ -83,8 +83,10 @@ function setNetherRoof(){
 			for(let offset of searchPattern){
 				let checkchunk={x:playerchunk.x+offset[0],y:127,z:playerchunk.z+offset[1]}
 				let block = player.dimension.getBlock(checkchunk);
-				if(block.type == "minecraft:air"){
-					player.runCommandAsync(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
+				if (block){
+					if(block.type == "minecraft:air"){
+						player.runCommandAsync(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
+					}
 				}
 			}//
 		}
@@ -146,7 +148,7 @@ function respawnPlayer(player){
 				queuePlayer(player)//insures safe spawn
 			}
 			break;
-		case "Ultra Hardcore":// Fall through to Hard core. Nothing is different about UHC
+		case "No Regen":// Fall through to Hard core. Nothing is different about UHC
 		case "Hardcore":
 		case "Island on Death":
 			itemsOnSpawn(player);
@@ -240,7 +242,9 @@ function lookForSafety(player){
 			player.setDynamicProperty("islandX",player.location.x)//record player spawnpoint x
 			player.setDynamicProperty("islandZ",player.location.z)//record player spawnpoint z
 			player.addTag("first_spawn")//add tag to record that player has already spawned previously
+			
 		}
+		player.removeTag("setup")
 	}else{
 		queuePlayer(player)
 	}
@@ -288,7 +292,7 @@ function showSetupMenu(){
 		let netherRoof = response.formValues[5]
 		moderator.runCommandAsync("gamerule sendcommandfeedback false")
 		switch(getGamemode()){
-			case "Ultra Hardcore":
+			case "No Regen":
 				moderator.runCommandAsync("gamerule naturalregeneration false")
 				break;
 			default:
