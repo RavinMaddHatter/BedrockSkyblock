@@ -149,7 +149,7 @@ function respawnPlayer(player){
 					z:player.getDynamicProperty("islandZ")});//reset player spawnpoint to island if it's been cleared, e.g. by breaking bed
 			}
 			
-			if (player.hasTag("first_spawn") && player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){//if actual spawnpoint recorded, then respawn player there
+			if (player.getSpawnPoint() !== undefined){//if actual spawnpoint recorded, then respawn player there
 				player.runCommandAsync(`spreadplayers ${player.getSpawnPoint().x} ${player.getSpawnPoint().z} 1 10 @s`);
 			}else{//if no actual spawnpoint recorded, then search for random island
 				telleportRandom(player);
