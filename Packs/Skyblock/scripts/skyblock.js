@@ -141,13 +141,19 @@ function respawnPlayer(player){
 	switch(getGamemode()){
 		case "Island Per User":
 			itemsOnSpawn(player);
-			if(player.getSpawnPoint() === undefined && player.getDynamicProperty("hasIsland")){//check if player spawnpoint has been reset and has already had a island spawnpoint recorded in getDynamicProperty
-				let spX = player.getDynamicProperty("islandX")//set x variable from island spawnpoint in scoreboard
-				let spZ = player.getDynamicProperty("islandZ")//set z variable from island spawnpoint in scoreboard
-				player.runCommandAsync(`spreadplayers ${spX} ${spZ} 1 10 @s`)//spawns them on island
-			}else{
-				telleportRandom(player)
-				queuePlayer(player)//insures safe spawn
+			if (player.hasTag("first_spawn") && player.getSpawnPoint() === undefined){//check if player has previously spawned, but spawnpoint is reset
+				player.setSpawnPoint({
+					dimension:player.dimension,
+					x:player.getDynamicProperty("islandX"),
+					y:player.getDynamicProperty("islandY"),
+					z:player.getDynamicProperty("islandZ")});//reset player spawnpoint to island if it's been cleared, e.g. by breaking bed
+			}
+			
+			if (player.hasTag("first_spawn") && player.getSpawnPoint().x != 0 && player.getSpawnPoint().z != 0){//if actual spawnpoint recorded, then respawn player there
+				player.runCommandAsync(`spreadplayers ${player.getSpawnPoint().x} ${player.getSpawnPoint().z} 1 10 @s`);
+			}else{//if no actual spawnpoint recorded, then search for random island
+				telleportRandom(player);
+				queuePlayer(player);//insures safe spawn
 			}
 			break;
 		case "No Regen":// Fall through to Hard core. Nothing is different about UHC
@@ -171,7 +177,6 @@ function respawnPlayer(player){
 			}
 			// Otherwise for Pillowcore we just fall through to regular spawnning
 			break;
-
 	}
 }
 
@@ -222,7 +227,7 @@ function lookForSafety(player){
 			let head = player.dimension.getBlock({x:centerBlock.x,y:y+2,z:centerBlock.z});
 			if(!block.isAir && feet.isAir&&head.isAir){
 				player.teleport({x:centerBlock.x,y:y+1,z:centerBlock.z});
-				if (getGamemode() == "Island Per User"){
+				if (getGamemode() === "Island Per User"){
 					player.setDynamicProperty("islandX", centerBlock.x);
 					player.setDynamicProperty("islandZ", centerBlock.z);
 				}
@@ -237,14 +242,14 @@ function lookForSafety(player){
 			world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+1), z:player.location.z})//set worldspawn after island search completes
 			player.addTag("first_spawn")//add tag to record that player has already spawned previously
 		}else if(getGamemode()==="Island Per User" && (!player.hasTag("first_spawn"))){
-			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:y+1, z:player.location.z})//set player spawnpoint after first island search completes
+			player.setSpawnPoint({dimension:player.dimension, x:player.location.x, y:(player.location.y+1), z:player.location.z})//set player spawnpoint after first island search completes
 			if(world.getDefaultSpawnLocation().x == 0 && world.getDefaultSpawnLocation().z == 0){//check if worldspawn hasn't been set to a real location yet
 				world.setDefaultSpawnLocation({x:player.location.x, y:(player.location.y+1), z:player.location.z})//set worldspawn after island search completes
 			}
 			player.setDynamicProperty("islandX",player.location.x)//record player spawnpoint x
+			player.setDynamicProperty("islandY",player.location.y+1)//record player spawnpoint y
 			player.setDynamicProperty("islandZ",player.location.z)//record player spawnpoint z
 			player.addTag("first_spawn")//add tag to record that player has already spawned previously
-			
 		}
 		player.removeTag("setup")
 	}else{
