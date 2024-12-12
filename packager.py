@@ -7,8 +7,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from shutil import copyfile
 import shutil
 workingPack=const.workingPack
-
-packName = "Skyblock 3-x"
+version = "1.21.51+"
+packName = f"Skyblock {version}"
 
 
 shutil.copytree(workingPack, packName)
