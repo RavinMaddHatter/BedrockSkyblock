@@ -38,8 +38,6 @@ if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved,
 	let saplingTypes=Object.keys(saplings)//getting keys for sappling types
 	saplingType = saplingTypes[sapIndex]//loading the sappling selected
 	challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
-	console.warn(netherRoof)
-	console.warn(freshLoad)
 	if(netherRoof && freshLoad){
 		system.runInterval(setNetherRoof,10)
 		freshLoad=false
@@ -53,10 +51,8 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 			case "Island Per User":
 			case "Island on Death":
 			case "Pillowcore":
+			case "No Regen":// Fall through to Hard core. Nothing is different about UH
 				break;
-			case "No Regen":// Fall through to Hard core. Nothing is different about UHC
-			case "Hardcore":// set spectator for hardcore
-				event.deadEntity.runCommandAsync("gamemode spectator @s")// place player in spectator
 		}
 	}
 });
@@ -65,11 +61,16 @@ world.afterEvents.playerSpawn.subscribe((event) =>{
 	let player = event.player
 	let worldConfigured=world.getDynamicProperty("worldConfigured")
 	if (event.player.hasTag("respawn")){
-		respawnPlayer(event.player)
+		respawnPlayer(player)
 	}
 	if (!worldConfigured){//if skyblock settigns are not saved, try and set up the server.
 		moderator=player
+		player.setDynamicProperty("spawned",true)
 		serverSetup()
+	}
+	if(!player.getDynamicProperty("spawned")){
+		player.setDynamicProperty("spawned",true)
+		respawnPlayer(player)
 	}
 });
 
@@ -137,11 +138,13 @@ function respawnPlayer(player){
 		player.addTag("respawn")//readies a spawn attempt
 		player.addTag("setup")// adds the setup to know the player has joined previously
 	}
-	console.warn(getGamemode())
 	switch(getGamemode()){
 		case "Island Per User":
 			itemsOnSpawn(player);
-			if (player.hasTag("first_spawn") && player.getSpawnPoint() === undefined){//check if player has previously spawned, but spawnpoint is reset
+			if (!player.getDynamicProperty("islandX")){//if actual spawnpoint recorded, then respawn player there
+				telleportRandom(player);
+				queuePlayer(player);//insures safe spawn
+			}else if ( player.getSpawnPoint() === undefined){//check if player has previously spawned, but spawnpoint is reset
 				player.setSpawnPoint({
 					dimension:player.dimension,
 					x:player.getDynamicProperty("islandX"),
@@ -149,12 +152,7 @@ function respawnPlayer(player){
 					z:player.getDynamicProperty("islandZ")});//reset player spawnpoint to island if it's been cleared, e.g. by breaking bed
 			}
 			
-			if (player.getSpawnPoint() !== undefined){//if actual spawnpoint recorded, then respawn player there
-				player.runCommandAsync(`spreadplayers ${player.getSpawnPoint().x} ${player.getSpawnPoint().z} 1 10 @s`);
-			}else{//if no actual spawnpoint recorded, then search for random island
-				telleportRandom(player);
-				queuePlayer(player);//insures safe spawn
-			}
+			
 			break;
 		case "No Regen":// Fall through to Hard core. Nothing is different about UHC
 		case "Hardcore":
