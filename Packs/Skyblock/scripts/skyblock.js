@@ -17,8 +17,8 @@ var treeCount
 var freshLoad=true
 var worldConfigured
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
-const gameTypes = ["Island on Death", "No Regen" ,"Island Per User" ,"Classic" ,"Pillowcore"]
-const challengeModes = ["Classic", "Nether Start", "No Items"]
+const gameTypes = ["Island on Death" ,"Island Per User" ,"Classic" ,"Pillowcore"]
+const challengeModes = ["Classic", "Nether Start", "No Items", "No Regen"]
 const saplings = {"Oak":"sapling 1 0",
 				"Spruce":"sapling 1 1" , 
 				"Acacia":"sapling 1 4",
@@ -118,6 +118,14 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
         (origin,styleName) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("styleIdx",challengeModes.indexOf(styleName))
+				switch(challengeModes[gameStyle]){
+					case "No Regen":
+						moderator.runCommand("gamerule naturalregeneration false")
+						break;
+					default:
+						moderator.runCommand("gamerule naturalregeneration true")
+						break;
+				}
 			})
         }
     );
@@ -273,10 +281,6 @@ world.afterEvents.playerPlaceBlock.subscribe((event) => {
 					player.setDynamicProperty("treeCount", playerTreeCount)
 					break;
 			}
-			
-			
-			
-			
 		}
 		
 	}
@@ -292,7 +296,6 @@ world.afterEvents.entityDie.subscribe((event) => {//handles on death
 			case "Island Per User":
 			case "Island on Death":
 			case "Pillowcore":
-			case "No Regen":// Fall through to Hard core. Nothing is different about UH
 				break;
 		}
 	}
@@ -396,7 +399,6 @@ function respawnPlayer(player){
 			
 			
 			break;
-		case "No Regen":// Fall through to Hard core. Nothing is different about UHC
 		case "Hardcore":
 		case "Island on Death":
 			itemsOnSpawn(player);
@@ -541,7 +543,7 @@ function showSetupMenu(){
 		let netherRoof = response.formValues[6]
 		let players = world.getPlayers()
 		moderator.runCommand("gamerule sendcommandfeedback false")
-		switch(getGamemode()){
+		switch(challengeModes[gameStyle]){
 			case "No Regen":
 				moderator.runCommand("gamerule naturalregeneration false")
 				break;
