@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mesa_before_surface_gold_ore_feature",
-      "places_feature": "minecraft:fixup_mesa_gold_position_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "before_surface_pass",

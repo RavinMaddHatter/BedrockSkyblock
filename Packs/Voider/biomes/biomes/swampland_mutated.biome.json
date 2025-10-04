@@ -1,0 +1,52 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:swampland_mutated"
+    },
+    "components": {
+      "minecraft:climate": {
+        "downfall": 0.5,
+        "snow_accumulation": [
+          0.0,
+          0.125
+        ],
+        "temperature": 0.8
+      },
+      "minecraft:map_tints": {
+        "grass": {
+          "type": "noise"
+        },
+        "foliage": "#6a7039"
+      },
+      "minecraft:overworld_height": {
+        "noise_params": [
+          -0.1,
+          0.3
+        ]
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:swamp",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air",
+          "max_puddle_depth_below_sea_level": 1
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "animal",
+          "monster",
+          "mutated",
+          "swamp",
+          "overworld_generation",
+          "spawns_slimes_on_surface"
+        ]
+      }
+    }
+  }
+}

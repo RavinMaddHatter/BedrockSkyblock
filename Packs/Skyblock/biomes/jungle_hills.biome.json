@@ -1,0 +1,50 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:jungle_hills"
+    },
+    "components": {
+      "minecraft:climate": {
+        "downfall": 0.9,
+        "snow_accumulation": [
+          0.0,
+          0.125
+        ],
+        "temperature": 0.95
+      },
+      "minecraft:multinoise_generation_rules": {
+        "target_temperature": 0.4,
+        "target_humidity": 0.0,
+        "target_altitude": 0.2,
+        "target_weirdness": 0.0,
+        "weight": 0.0
+      },
+      "minecraft:overworld_height": {
+        "noise_type": "mountains"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:overworld",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "animal",
+          "hills",
+          "jungle",
+          "monster",
+          "overworld",
+          "spawns_jungle_mobs",
+          "spawns_warm_variant_farm_animals"
+        ]
+      }
+    }
+  }
+}

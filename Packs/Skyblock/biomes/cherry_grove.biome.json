@@ -1,0 +1,46 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:cherry_grove"
+    },
+    "components": {
+      "minecraft:climate": {
+        "downfall": 0.8,
+        "temperature": 0.3
+      },
+      "minecraft:map_tints": {
+        "grass": {
+          "type": "tint",
+          "tint": "#b6db61"
+        },
+        "foliage": "#b6db61"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:overworld",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:mountain_parameters": {
+        "top_slide": {
+          "enabled": false
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "mountains",
+          "monster",
+          "overworld",
+          "cherry_grove",
+          "bee_habitat"
+        ]
+      }
+    }
+  }
+}

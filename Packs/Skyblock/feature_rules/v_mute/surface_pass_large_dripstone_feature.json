@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:surface_pass_large_dripstone_feature",
-      "places_feature": "minecraft:large_dripstone_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": "Math.Random(10, 48)",
       "x": {
         "distribution": "uniform",
         "extent": [

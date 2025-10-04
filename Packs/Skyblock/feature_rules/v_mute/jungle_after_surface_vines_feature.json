@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:jungle_after_surface_vines_feature",
-      "places_feature": "minecraft:fixup_vines_position_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 50,
       "coordinate_eval_order": "xzy",
       "x": {
         "distribution": "uniform",

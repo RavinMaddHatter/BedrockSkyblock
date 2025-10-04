@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:frozen_ocean_after_surface_ice_feature",
-      "places_feature": "minecraft:legacy:ice_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -26,7 +26,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "x": 0,
       "y": "query.heightmap(variable.worldx, variable.worldz)",
       "z": 0

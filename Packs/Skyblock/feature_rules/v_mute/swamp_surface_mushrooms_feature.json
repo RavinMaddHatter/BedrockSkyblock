@@ -3,23 +3,16 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:swamp_surface_mushrooms_feature",
-      "places_feature": "minecraft:legacy:small_mushrooms_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag",
-          "operator": "==",
-          "value": "swamp"
+          "value": "deprecated"
         }
       ]
-    },
-    "distribution": {
-      "iterations": 0,
-      "x": 0,
-      "y": "query.heightmap(variable.worldx, variable.worldz)",
-      "z": 0
     }
   }
 }

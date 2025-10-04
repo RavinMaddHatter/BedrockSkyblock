@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:overworld_surface_mangrove_grass_feature",
-      "places_feature": "minecraft:grass_disc_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -20,7 +20,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "x": {
         "distribution": "uniform",
         "extent": [

@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:minecraft:overworld_surface_sand_feature",
-      "places_feature": "minecraft:sand_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -35,7 +35,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 3,
       "x": {
         "distribution": "uniform",
         "extent": [

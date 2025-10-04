@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:lush_caves_underground_clay_ore_feature",
-      "places_feature": "minecraft:clay_ore_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 46,
       "x": {
         "distribution": "uniform",
         "extent": [

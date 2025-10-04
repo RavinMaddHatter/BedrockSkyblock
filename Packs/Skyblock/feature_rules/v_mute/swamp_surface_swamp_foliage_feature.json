@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:swamp_surface_swamp_foliage_feature",
-      "places_feature": "minecraft:legacy:swamp_foliage_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "x": 0,
       "y": "query.heightmap(variable.worldx, variable.worldz)",
       "z": 0

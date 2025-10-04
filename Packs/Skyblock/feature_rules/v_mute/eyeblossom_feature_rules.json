@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:eyeblossom_feature_rules",
-      "places_feature": "minecraft:scatter_eyeblossom_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 5,
       "x": "math.random(-8, 8)",
       "y": 0,
       "z": "math.random(-8, 8)"

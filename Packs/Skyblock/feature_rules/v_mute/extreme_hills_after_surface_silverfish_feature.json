@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:extreme_hills_after_surface_silverfish_feature",
-      "places_feature": "minecraft:silverfish_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",

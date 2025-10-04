@@ -1,0 +1,69 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:mega_taiga"
+    },
+    "components": {
+      "minecraft:climate": {
+        "downfall": 0.8,
+        "snow_accumulation": [
+          0.0,
+          0.125
+        ],
+        "temperature": 0.3
+      },
+      "minecraft:overworld_height": {
+        "noise_type": "taiga"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:overworld",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:surface_material_adjustments": {
+        "adjustments": [
+          {
+            "materials": {
+              "top_material": "minecraft:bedrock"
+            },
+            "noise_frequency_scale": 0.0625,
+            "noise_range": [
+              0.212,
+              1.0
+            ]
+          },
+          {
+            "materials": {
+              "top_material": "minecraft:bedrock"
+            },
+            "noise_frequency_scale": 0.0625,
+            "noise_range": [
+              -0.115,
+              0.212
+            ]
+          }
+        ]
+      },
+      "minecraft:tags": {
+        "tags": [
+          "animal",
+          "forest",
+          "mega",
+          "monster",
+          "overworld",
+          "rare",
+          "taiga",
+          "has_structure_trail_ruins",
+          "spawns_cold_variant_farm_animals"
+        ]
+      }
+    }
+  }
+}

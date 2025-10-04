@@ -3,13 +3,13 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:overworld_underwater_magma_feature",
-      "places_feature": "minecraft:underwater_magma_underground_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass"
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": "Math.Random(18, 30)",
       "x": {
         "distribution": "uniform",
         "extent": [

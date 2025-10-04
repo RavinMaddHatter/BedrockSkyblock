@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:overworld_underground_andesite_feature",
-      "places_feature": "minecraft:andesite_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",

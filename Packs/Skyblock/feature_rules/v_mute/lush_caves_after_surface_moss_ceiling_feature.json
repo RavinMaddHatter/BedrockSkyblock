@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:lush_caves_after_surface_moss_ceiling_feature",
-      "places_feature": "minecraft:moss_ceiling_snap_to_ceiling_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 125,
       "x": {
         "distribution": "uniform",
         "extent": [

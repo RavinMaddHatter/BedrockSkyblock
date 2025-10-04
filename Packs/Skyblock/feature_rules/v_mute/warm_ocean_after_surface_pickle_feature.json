@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:warm_ocean_after_surface_pickle_feature",
-      "places_feature": "minecraft:pickle_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -21,7 +21,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 4,
       "scatter_chance": {
         "numerator": 1,
         "denominator": 6

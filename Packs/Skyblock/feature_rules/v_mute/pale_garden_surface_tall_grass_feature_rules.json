@@ -3,20 +3,19 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:pale_garden_surface_tall_grass_feature_rules",
-      "places_feature": "minecraft:scatter_tall_grass_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag",
-          "operator": "==",
           "value": "pale_garden"
         }
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 2,
       "x": {
         "distribution": "uniform",
         "extent": [
@@ -24,13 +23,7 @@
           16
         ]
       },
-      "y": {
-        "distribution": "uniform",
-        "extent": [
-          0,
-          "query.heightmap(variable.worldx, variable.worldz) + 4"
-        ]
-      },
+      "y": "query.heightmap(variable.worldx, variable.worldz)",
       "z": {
         "distribution": "uniform",
         "extent": [

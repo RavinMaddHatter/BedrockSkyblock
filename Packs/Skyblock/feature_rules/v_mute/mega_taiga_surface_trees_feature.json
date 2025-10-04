@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mega_taiga_surface_trees_feature",
-      "places_feature": "minecraft:legacy:mega_taiga_tree_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -26,7 +26,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "coordinate_eval_order": "zxy",
       "x": 0,
       "y": "query.heightmap(variable.worldx, variable.worldz)",

@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mangrove_swamp_tall_mangrove_tree_with_beenest_feature",
-      "places_feature": "minecraft:tall_mangrove_tree_with_beenest_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 2,
       "x": {
         "distribution": "uniform",
         "extent": [

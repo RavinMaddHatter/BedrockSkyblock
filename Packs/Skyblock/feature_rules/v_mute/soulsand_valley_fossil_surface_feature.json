@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:soulsand_valley_fossil_surface_feature",
-      "places_feature": "minecraft:nether_fossil_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -16,10 +16,10 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "scatter_chance": {
-        "numerator": 2,
-        "denominator": 6
+        "numerator": 1,
+        "denominator": 2
       },
       "x": {
         "distribution": "uniform",
@@ -31,8 +31,8 @@
       "y": {
         "distribution": "uniform",
         "extent": [
-          0,
-          124
+          32,
+          125
         ]
       },
       "z": {

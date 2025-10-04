@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:overworld_underground_deepslate_feature",
-      "places_feature": "minecraft:deepslate_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "before_underground_pass",

@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:overworld_underground_gold_ore_lower_feature",
-      "places_feature": "minecraft:gold_ore_lower_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",
@@ -25,7 +25,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "scatter_chance": {
         "numerator": 1,
         "denominator": 2

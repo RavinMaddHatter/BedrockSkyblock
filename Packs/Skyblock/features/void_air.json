@@ -1,0 +1,29 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "void:void_air"
+    },
+    "places_block": "minecraft:air",
+    "enforce_survivability_rules": false,
+    "enforce_placement_rules": false,
+    "may_replace": [
+      "minecraft:bedrock",
+      "minecraft:deepslate",
+      "minecraft:stone",
+      "minecraft:water",
+      "minecraft:lava",
+      "minecraft:tuff",
+      "minecraft:copper_ore",
+      "minecraft:iron_ore",
+      "minecraft:deepslate_copper_ore",
+      "minecraft:deepslate_iron_ore",
+      "minecraft:packed_ice",
+      "minecraft:snow",
+      "minecraft:raw_copper_block",
+      "minecraft:raw_iron_block",
+      "minecraft:grass",
+      "minecraft:coarse_dirt"
+    ]
+  }
+}

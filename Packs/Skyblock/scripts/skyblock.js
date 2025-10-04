@@ -1,4 +1,4 @@
-import { world, system } from '@minecraft/server';
+import { world, system,CommandPermissionLevel, CustomCommandParamType  } from '@minecraft/server';
 import {ModalFormData } from "@minecraft/server-ui";
 
 var uiLoop = 0
@@ -13,7 +13,9 @@ var islands = []
 var softLockcount=0
 var softlock
 var netherRoof
+var treeCount
 var freshLoad=true
+var worldConfigured
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
 const gameTypes = ["Island on Death", "No Regen" ,"Island Per User" ,"Classic" ,"Pillowcore"]
 const challengeModes = ["Classic", "Nether Start", "No Items"]
@@ -23,27 +25,266 @@ const saplings = {"Oak":"sapling 1 0",
 				"Dark Oak":"sapling 4 5",
 				"Birch": "sapling 1 2",
 				"Jungle": "sapling 1 3",
-				"Bamboo": "bamboo", 
+//				"Bamboo": "bamboo", 
 				"Cherry": "cherry_sapling",
+				"Pale Oak": "pale_oak_sapling 4",
 				"Random":"Random",
 				"None":"None"}
+system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
+	customCommandRegistry.registerEnum("skyblock:challengeModes", challengeModes);
+	customCommandRegistry.registerEnum("skyblock:gameTypes", gameTypes);
+	customCommandRegistry.registerEnum("skyblock:saplings", Object.keys(saplings));
+    customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:resetconfig",
+			cheatsRequired:false,
+            description: "resets the configuration of the world. you will be TPed back to 0/0",
+            permissionLevel: CommandPermissionLevel.GameDirectors
+        },
+        (origin) => {
+			moderator=origin.sourceEntity
+			uiLoop = system.runTimeout(showSetupMenu,10)//this 
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:settickspeed",
+			cheatsRequired:false,
+            description: "Changes the random tick speed to value",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"tickspeed", type:"Integer"}]
+		
+        },
+        (origin,tickspeed) => {
+			system.runTimeout(function(){
+				world.gameRules.randomTickSpeed=tickspeed
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:treecount",
+			cheatsRequired:false,
+            description: "Changes the number of fertalized trees",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"treecount", type:"Integer"}]
+		
+        },
+        (origin,treecount) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("treeCount",treecount)//Loading settings
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:scattermax",
+			cheatsRequired:false,
+            description: "Changes the max scatter distance",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"scattermax", type:"Integer"}]
+		
+        },
+        (origin,scattermax) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("scatterMax",scattermax)//Loading settings
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:netherroof",
+			cheatsRequired:false,
+            description: "Set nether roof. ",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"Netherroof", type:"Boolean"}]
+		
+        },
+        (origin,Netherroof) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("NetherRoof",scattermax)//Loading settings
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:challengemode",
+			cheatsRequired:false,
+            description: "Change challenge mode",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"skyblock:challengeModes", type:"Enum"}]
+		
+        },
+        (origin,styleName) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("styleIdx",challengeModes.indexOf(styleName))
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:sapling",
+			cheatsRequired:false,
+            description: "Change sapling type",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"skyblock:saplings", type:"Enum"}]
+		
+        },
+        (origin,styleName) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("sapIndex",Object.keys(saplings).indexOf(styleName))
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:gametypes",
+			cheatsRequired:false,
+            description: "Change challenge type",
+            permissionLevel: CommandPermissionLevel.GameDirectors,
+			mandatoryParameters:[{name:"skyblock:gameTypes", type:"Enum"}]
+		
+        },
+        (origin,styleName) => {
+			system.runTimeout(function(){
+				world.setDynamicProperty("sapIndex",gameTypes.indexOf(styleName))
+			})
+        }
+    );
+	customCommandRegistry.registerCommand(
+        {
+            name: "skyblock:printconfig",
+			cheatsRequired:false,
+            description: "Will print the configuration of the server for refference.",
+            permissionLevel: CommandPermissionLevel.Any
+        },
+        (origin) => {
+			let player = origin.sourceEntity
+			let sapIndex = world.getDynamicProperty("sapIndex")//Loading settings
+			let styleIdx = world.getDynamicProperty("styleIdx")//Loading settings
+			scatterMax = world.getDynamicProperty("scatterMax")//Loading settings
+			netherRoof = world.getDynamicProperty("NetherRoof")//Loading settings
+			treeCount = world.getDynamicProperty("treeCount")//Loading settings
+			let saplingTypes=Object.keys(saplings)//getting keys for sappling types
+			saplingType = saplingTypes[sapIndex]//loading the sappling selected
+			challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
+			player.sendMessage("\u00A74Skyblock Settings:")
+			player.sendMessage("\u00A74Challenge Mode: \u00A7f"+challengeMode)
+			player.sendMessage("\u00A74Game style Mode: \u00A7f"+gameTypes[styleIdx])
+			player.sendMessage("\u00A74Sapling Type: \u00A7f"+saplingType)
+			player.sendMessage("\u00A74Fertalized Tree Count: \u00A7f"+treeCount)
+			player.sendMessage("\u00A74Nether has roof (mobs spawn naturally): \u00A7f"+netherRoof.toString())
+			player.sendMessage("\u00A74Approximate Scatter distance (on spawn): \u00A7f"+scatterMax.toString())
+			player.sendMessage("\u00A74Random Tick Rate: \u00A7f"+world.gameRules.randomTickSpeed.toString())
+			player.sendMessage("\u00A74Natural Regen: \u00A7f"+world.gameRules.naturalRegeneration)
+        }
+    );
+});
 
 
-let worldConfigured=world.getDynamicProperty("worldConfigured")
-if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved, try and set up the server.
-	let sapIndex = world.getDynamicProperty("sapIndex")//Loading settings
-	let styleIdx = world.getDynamicProperty("styleIdx")//Loading settings
-	scatterMax = world.getDynamicProperty("scatterMax")//Loading settings
-	netherRoof = world.getDynamicProperty("NetherRoof")//Loading settings
-	let saplingTypes=Object.keys(saplings)//getting keys for sappling types
-	saplingType = saplingTypes[sapIndex]//loading the sappling selected
-	challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
-	if(netherRoof && freshLoad){
-		system.runInterval(setNetherRoof,10)
-		freshLoad=false
-	}
-}
+
 // subscriptions
+world.afterEvents.worldLoad.subscribe(({ customCommandRegistry  }) => {
+	worldConfigured=world.getDynamicProperty("worldConfigured")
+	if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved, try and set up the server.
+		let sapIndex = world.getDynamicProperty("sapIndex")//Loading settings
+		let styleIdx = world.getDynamicProperty("styleIdx")//Loading settings
+		let gamestyleIndex = world.getDynamicProperty("gameStyle")
+		scatterMax = world.getDynamicProperty("scatterMax")//Loading settings
+		netherRoof = world.getDynamicProperty("NetherRoof")//Loading settings
+		treeCount = world.getDynamicProperty("treeCount")//Loading settings
+		let saplingTypes=Object.keys(saplings)//getting keys for sappling types
+		saplingType = saplingTypes[sapIndex]//loading the sappling selected
+		challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
+		if(netherRoof && freshLoad){
+			system.runInterval(setNetherRoof,10)
+			freshLoad=false
+		}
+	}
+})
+
+// subscriptions
+world.afterEvents.playerPlaceBlock.subscribe((event) => {
+	if ((event.block.typeId.includes("sapling") ) ){
+		let player = event.player
+		let playerTreeCount = player.getDynamicProperty("treeCount")
+		if (playerTreeCount == null){
+			player.setDynamicProperty("treeCount", treeCount)
+			playerTreeCount = treeCount;
+		}
+		if (playerTreeCount>0){
+			let treeType = event.block.typeId.split("_")[0]
+			treeType = treeType.replace("minecraft:","")
+			playerTreeCount-=1
+			player.sendMessage(treeType)
+			switch(treeType){
+				case "dark":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:roofed_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "acacia":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:savanna_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "pale":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:pale_oak_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "spruce":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:pine_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "cherry":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:random_cherry_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "mangrove":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:random_mangrove_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "oak":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:random_oak_tree_from_sapling_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "birch":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:birch_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+				case "jungle":
+					player.dimension.setBlockType(event.block.location,"minecraft:air")
+					player.dimension.placeFeature("minecraft:jungle_tree_feature",event.block.location,true)
+					player.sendMessage("\u00A74Trees Remaining: \u00A7f"+playerTreeCount.toString())
+					player.setDynamicProperty("treeCount", playerTreeCount)
+					break;
+			}
+			
+			
+			
+			
+		}
+		
+	}
+})
+
+
+
+
 world.afterEvents.entityDie.subscribe((event) => {//handles on death 
 	if(event.deadEntity.typeId == "minecraft:player"){
 		event.deadEntity.addTag("respawn")//Setup to give items on respawn and know that this is a death
@@ -88,7 +329,7 @@ function setNetherRoof(){
 				let block = player.dimension.getBlock(checkchunk);
 				if (block){
 					if(block.type.id == "minecraft:air"){
-						player.runCommandAsync(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
+						player.runCommand(`fill ${checkchunk.x-16} ${checkchunk.y} ${checkchunk.z-16} ${checkchunk.x+16} ${checkchunk.y} ${checkchunk.z+16} barrier`)
 					}
 				}
 			}//
@@ -107,22 +348,22 @@ function itemsOnSpawn(player){
 		switch(challengeMode){//check the challenge mode
 			case "Classic"://classic game rules
 				if(!player.hasTag("first_spawn")){
-					player.runCommandAsync("give @s ice")// give ice
-					player.runCommandAsync("give @s lava_bucket")// give lava
+					player.runCommand("give @s ice")// give ice
+					player.runCommand("give @s lava_bucket")// give lava
 					giveSappling(player)//give a sapling
 				}
 				break;
 			case "Nether Start"://if you are starting in the nether, different saplings are given
 				spawnInNether(player)
 				if ([true,false].sample()){
-					player.runCommandAsync("give @s warped_fungus 2")//warped fungus
-					player.runCommandAsync("give @s warped_nylium 4")//giving 4 nylium to support growing more nylium if the first dies
-					player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow but you will need a bunch of you land on the wrong island
+					player.runCommand("give @s warped_fungus 2")//warped fungus
+					player.runCommand("give @s warped_nylium 4")//giving 4 nylium to support growing more nylium if the first dies
+					player.runCommand("give @s bone_meal 10")// i estimate you need like 2 to get it to grow but you will need a bunch of you land on the wrong island
 				}
 				else{
-					player.runCommandAsync("give @s crimson_fungus 2")//give crimson
-					player.runCommandAsync("give @s crimson_nylium 4")//giving 4 nylium to support growing more nylium if the first dies and getting more saps
-					player.runCommandAsync("give @s bone_meal 10")// i estimate you need like 2 to get it to grow
+					player.runCommand("give @s crimson_fungus 2")//give crimson
+					player.runCommand("give @s crimson_nylium 4")//giving 4 nylium to support growing more nylium if the first dies and getting more saps
+					player.runCommand("give @s bone_meal 10")// i estimate you need like 2 to get it to grow
 				}
 				break;
 			case "No Items"://this is for the no-items mode, as of right now nothing happens. but keeping it in the switch just in case
@@ -138,6 +379,7 @@ function respawnPlayer(player){
 		player.addTag("respawn")//readies a spawn attempt
 		player.addTag("setup")// adds the setup to know the player has joined previously
 	}
+	player.setDynamicProperty("treeCount", treeCount)
 	switch(getGamemode()){
 		case "Island Per User":
 			itemsOnSpawn(player);
@@ -192,8 +434,8 @@ function giveSappling(player){
 	if (item === "Random"){
 		item=saplings[randomSap()]
 	}
-	player.runCommandAsync("give @s "+item)
-	player.runCommandAsync("give @s dirt 4")
+	player.runCommand("give @s "+item)
+	player.runCommand("give @s dirt 4")
 }
 function spawnInNether(player){
 	player.teleport({x:0,y:72,z:0},{dimension:world.getDimension("minecraft:nether")})
@@ -255,7 +497,7 @@ function lookForSafety(player){
 	}
 }
 function queuePlayer(player){
-	player.runCommandAsync("tp @s ~ 319 ~")
+	player.runCommand("tp @s ~ 319 ~")
 	playersSearching.push(player)// sets this player to be searched again in the future
 	if (!searchQueued){// if someone else is already queued the search dont queue it again
 		searchQueued=true// queue the search
@@ -278,11 +520,12 @@ function allSearch(){
 function showSetupMenu(){
 	let setupForm = new ModalFormData()
 	setupForm.title("Change Game Settings")
-	setupForm.dropdown("Game Style",gameTypes, 0)
-	setupForm.dropdown("Sapling",Object.keys(saplings), 0)
-	setupForm.dropdown("Challenge Mode",challengeModes, 0)
-	setupForm.textField("Scatter Max", "3000", "3000")// done
-	setupForm.textField("Random Tick Speed", "1", "1")// done
+	setupForm.dropdown("Game Style",gameTypes,{defaultValueIndex:0})
+	setupForm.dropdown("Sapling",Object.keys(saplings),{defaultValueIndex:0})
+	setupForm.dropdown("Challenge Mode",challengeModes,{defaultValueIndex:0})
+	setupForm.textField("Fertalized Sapling Count: ","10",{defaultValue:"10"})
+	setupForm.textField("Scatter Max", "3000",{defaultValue:"3000"})// done
+	setupForm.textField("Random Tick Speed", "1",{defaultValue:"1"})// done
 	setupForm.toggle("Nether Roof (allows Natural Ghasts)")
 	setupForm.show(moderator).then((response)=> {
 		if (response.canceled) {
@@ -292,23 +535,28 @@ function showSetupMenu(){
 		let gameStyle = response.formValues[0]
 		let sapIndex = response.formValues[1]
 		let styleIdx = response.formValues[2]
-		scatterMax = response.formValues[3]
-		let randomTick = response.formValues[4]
-		let netherRoof = response.formValues[5]
-		moderator.runCommandAsync("gamerule sendcommandfeedback false")
+		treeCount = response.formValues[3]
+		scatterMax = response.formValues[4]
+		let randomTick = response.formValues[5]
+		let netherRoof = response.formValues[6]
+		let players = world.getPlayers()
+		moderator.runCommand("gamerule sendcommandfeedback false")
 		switch(getGamemode()){
 			case "No Regen":
-				moderator.runCommandAsync("gamerule naturalregeneration false")
+				moderator.runCommand("gamerule naturalregeneration false")
 				break;
 			default:
-				moderator.runCommandAsync("gamerule naturalregeneration true")
+				moderator.runCommand("gamerule naturalregeneration true")
 				break;
 		}
 		if(isNumeric(randomTick)){
-			moderator.runCommandAsync("gamerule randomtickspeed " + randomTick)
+			moderator.runCommand("gamerule randomtickSpeed "+ randomTick.toString())
 		}
-		if(isNumeric(scatterMax)){
-			scatterMax=parseInt(scatterMax);
+		if(isNumeric(treeCount)){
+			treeCount=parseInt(treeCount);
+		}
+		if(isNumeric(treeCount)){
+			treeCount=parseInt(treeCount);
 		}
 		let saplingTypes=Object.keys(saplings)
 		saplingType = saplingTypes[sapIndex]
@@ -320,12 +568,15 @@ function showSetupMenu(){
 		world.setDynamicProperty("styleIdx", styleIdx)
 		world.setDynamicProperty("scatterMax", scatterMax)
 		world.setDynamicProperty("NetherRoof", netherRoof)
+		world.setDynamicProperty("treeCount", treeCount)
 		if(netherRoof){
 			system.runInterval(setNetherRoof,10)
 		}
 		
 		system.clearRun(uiLoop)
-		moderator.runCommand(`setblock ${spawnLocation.x} 319 ${spawnLocation.z} air`)
+		if (spawnLocation){
+			moderator.runCommand(`setblock ${spawnLocation.x} 319 ${spawnLocation.z} air`)
+		}
 		worldConfigured=world.setDynamicProperty("worldConfigured",true)
 		respawnPlayer(moderator)
 	});
@@ -345,7 +596,7 @@ function isNumeric(str) {
 }
 function sayInChat(target,text){
 	text=text.split("minecraft:").join("")
-	target.runCommandAsync('tellraw @s {"rawtext":[{"text":"'+text+'"}]}')
+	target.runCommand('tellraw @s {"rawtext":[{"text":"'+text+'"}]}')
 }
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)

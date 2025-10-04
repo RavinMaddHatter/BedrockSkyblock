@@ -1,0 +1,59 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:mesa_plateau_stone"
+    },
+    "components": {
+      "minecraft:creature_spawn_probability": {
+        "probability": 0.04
+      },
+      "minecraft:climate": {
+        "downfall": 0.0,
+        "snow_accumulation": [
+          0.0,
+          0.125
+        ],
+        "temperature": 2.0
+      },
+      "minecraft:map_tints": {
+        "grass": {
+          "type": "tint",
+          "tint": "#aea42a"
+        },
+        "foliage": "#90814d"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:mesa",
+          "bryce_pillars": false,
+          "clay_material": "minecraft:bedrock",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "hard_clay_material": "minecraft:bedrock",
+          "has_forest": true,
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:overworld_height": {
+        "noise_type": "highlands"
+      },
+      "minecraft:tags": {
+        "tags": [
+          "animal",
+          "mesa",
+          "monster",
+          "overworld",
+          "plateau",
+          "rare",
+          "stone",
+          "spawns_mesa_mobs",
+          "spawns_warm_variant_farm_animals"
+        ]
+      }
+    }
+  }
+}

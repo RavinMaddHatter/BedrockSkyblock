@@ -7,7 +7,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from shutil import copyfile
 import shutil
 workingPack=const.workingPack
-version = "1.21.51+"
+version = "1.21.111+"
 packName = f"Skyblock {version}"
 
 

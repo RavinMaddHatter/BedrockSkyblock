@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:after_surface_silverfish_feature",
-      "places_feature": "minecraft:silverfish_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -25,7 +25,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 14,
       "coordinate_eval_order": "xyz",
       "x": {
         "distribution": "uniform",

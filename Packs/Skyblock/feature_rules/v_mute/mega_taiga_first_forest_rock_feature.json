@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mega_taiga_first_forest_rock_feature",
-      "places_feature": "minecraft:legacy:forest_rock_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "first_pass",
@@ -21,7 +21,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "x": 0,
       "y": "query.heightmap(variable.worldx, variable.worldz)",
       "z": 0

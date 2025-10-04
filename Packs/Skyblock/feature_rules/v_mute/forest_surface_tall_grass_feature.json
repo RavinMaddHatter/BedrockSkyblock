@@ -3,13 +3,15 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:forest_surface_tall_grass_feature",
-      "places_feature": "minecraft:scatter_tall_grass_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
       "minecraft:biome_filter": [
-        // This feature has been deprecated in favor of "minecraft:forest_after_surface_tall_grass_feature_rules".
-        { "test": "has_biome_tag", "value": "deprecated" }
+        {
+          "test": "has_biome_tag",
+          "value": "deprecated"
+        }
       ]
     }
   }

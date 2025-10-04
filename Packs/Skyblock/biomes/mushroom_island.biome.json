@@ -1,0 +1,39 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:mushroom_island"
+    },
+    "components": {
+      "minecraft:climate": {
+        "downfall": 1.0,
+        "snow_accumulation": [
+          0.0,
+          0.125
+        ],
+        "temperature": 0.9
+      },
+      "minecraft:overworld_height": {
+        "noise_type": "mushroom"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:overworld",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "mooshroom_island",
+          "overworld",
+          "spawns_without_patrols"
+        ]
+      }
+    }
+  }
+}

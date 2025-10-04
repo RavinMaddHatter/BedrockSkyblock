@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mesa_underground_gold_ore_feature",
-      "places_feature": "minecraft:gold_ore_extra_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 50,
       "coordinate_eval_order": "zyx",
       "x": {
         "distribution": "uniform",

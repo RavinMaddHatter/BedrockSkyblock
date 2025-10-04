@@ -3,35 +3,16 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mangrove_swamp_tall_mangrove_tree_feature",
-      "places_feature": "minecraft:tall_mangrove_tree_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag",
-          "operator": "==",
-          "value": "mangrove_swamp"
+          "value": "deprecated"
         }
       ]
-    },
-    "distribution": {
-      "iterations": 0,
-      "x": {
-        "distribution": "uniform",
-        "extent": [
-          0,
-          16
-        ]
-      },
-      "y": "query.heightmap(variable.worldx, variable.worldz)",
-      "z": {
-        "distribution": "uniform",
-        "extent": [
-          0,
-          16
-        ]
-      }
     }
   }
 }

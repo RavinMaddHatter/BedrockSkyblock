@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:lush_caves_after_surface_spore_blossom_feature",
-      "places_feature": "minecraft:spore_blossom_snap_to_ceiling_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -16,7 +16,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 25,
       "x": {
         "distribution": "uniform",
         "extent": [

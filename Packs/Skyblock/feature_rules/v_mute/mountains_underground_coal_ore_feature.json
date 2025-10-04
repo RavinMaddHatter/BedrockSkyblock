@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:mountains_underground_coal_ore_feature",
-      "places_feature": "minecraft:coal_ore_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",
@@ -14,7 +14,7 @@
       }
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 20,
       "coordinate_eval_order": "zyx",
       "x": {
         "distribution": "uniform",

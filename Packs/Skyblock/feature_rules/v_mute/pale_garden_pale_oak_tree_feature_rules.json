@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:pale_garden_pale_oak_tree_feature_rules",
-      "places_feature": "minecraft:random_pale_oak_tree_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "surface_pass",
@@ -15,7 +15,7 @@
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 16,
       "x": {
         "distribution": "uniform",
         "extent": [

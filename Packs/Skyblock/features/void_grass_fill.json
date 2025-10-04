@@ -1,0 +1,22 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "void:void_grass_fill"
+    },
+    "places_feature": "void:void_grass",
+    "iterations": "320*256",
+    "x": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "z": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 15 ]
+    },
+    "y": {
+      "distribution": "fixed_grid",
+      "extent": [ 0, 319 ]
+    }
+  }
+}

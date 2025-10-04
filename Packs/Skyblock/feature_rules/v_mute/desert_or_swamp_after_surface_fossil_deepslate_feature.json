@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:desert_or_swamp_after_surface_fossil_deepslate_feature",
-      "places_feature": "minecraft:deepslate_diamond_fossil_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
@@ -12,20 +12,22 @@
           "any_of": [
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "desert"
             },
             {
               "test": "has_biome_tag",
-              "operator": "==",
               "value": "swamp"
+            },
+            {
+              "test": "has_biome_tag",
+              "value": "mangrove_swamp"
             }
           ]
         }
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
       "scatter_chance": {
         "numerator": 1,
         "denominator": 64

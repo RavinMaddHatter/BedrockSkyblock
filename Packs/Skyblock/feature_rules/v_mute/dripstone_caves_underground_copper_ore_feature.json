@@ -3,7 +3,7 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:dripstone_caves_underground_copper_ore_feature",
-      "places_feature": "minecraft:dripstone_caves_copper_ore_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "underground_pass",
@@ -14,7 +14,7 @@
       }
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 16,
       "coordinate_eval_order": "zyx",
       "x": {
         "distribution": "uniform",

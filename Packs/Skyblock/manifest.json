@@ -2,24 +2,24 @@
   "format_version": 2,
   "header": {
     "description": "An Infinitely generating skyblock map with structures that includes custom game rules that get set on first spawn. This pack works without experiments and can be played fully in survival. By \u00c2\u00a7aBud aj29 \u00c2\u00a7fand \u00c2\u00a7fRavinMaddHatter.",
-    "name": "Skyblock_1.21.50",
-    "uuid": "be30f6b2-8e4e-4eb1-b85c-5029b952dd85",
+    "name": "Skyblock 4.0",
+    "uuid": "ae511475-4f44-4d5f-95ce-b82cc3550bb9",
     "version": [
-      1,
-      21,
-      50
+      4,
+      0,
+      0
     ],
     "min_engine_version": [
       1,
       21,
-      50
+      100
     ]
   },
   "modules": [
     {
       "description": "",
       "type": "data",
-      "uuid": "fef32c3f-1f05-4cd4-a6d2-095984d379e1",
+      "uuid": "7fb0b927-9ee5-4dde-9b8a-797309155d40",
       "version": [
         0,
         0,
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "uuid": "6d6a8262-34d5-4edd-bd8c-b08b8bc290da",
+      "uuid": "1228e8fe-947c-4e49-b60e-df93a7b7efdd",
       "version": [
         1,
         0,
@@ -44,11 +44,16 @@
   "dependencies": [
     {
       "module_name": "@minecraft/server",
-      "version": "1.5.0"
+      "version": "2.2.0"
     },
     {
       "module_name": "@minecraft/server-ui",
-      "version": "1.1.0"
+      "version": "2.0.0"
     }
-  ]
+  ],
+  "metadata":{
+	  "authors": ["u00a7fRavinMaddHatter","\u00c2\u00a7aBud aj29"],
+	  "license": "MIT",
+	  "product_type":"addon"
+  }
 }

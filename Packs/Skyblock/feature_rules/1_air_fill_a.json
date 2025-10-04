@@ -1,0 +1,23 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "void:1_air_fill_a",
+      "places_feature": "void:void_air_fill_1"
+    },
+    "conditions": {
+      "placement_pass": "sky_pass",
+      "minecraft:biome_filter": [
+        {
+          "test": "has_biome_tag", "operator": "!=", "value": "the_end"
+        }
+      ]
+    },    
+    "distribution": {
+      "iterations": 1,
+      "x": 0,
+      "z": 0,
+      "y": -64
+    }
+  }
+}

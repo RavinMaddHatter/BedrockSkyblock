@@ -3,25 +3,33 @@
   "minecraft:feature_rules": {
     "description": {
       "identifier": "minecraft:jungle_after_surface_bamboo_feature",
-      "places_feature": "minecraft:bamboo_feature"
+      "places_feature": "void:void_air"
     },
     "conditions": {
       "placement_pass": "after_surface_pass",
       "minecraft:biome_filter": [
         {
           "test": "has_biome_tag",
-          "operator": "!=",
-          "value": "bamboo"
+          "value": "jungle"
         },
         {
           "test": "has_biome_tag",
-          "operator": "==",
-          "value": "jungle"
+          "operator": "not",
+          "value": "edge"
+        },
+        {
+          "test": "has_biome_tag",
+          "operator": "not",
+          "value": "bamboo"
         }
       ]
     },
     "distribution": {
-      "iterations": 0,
+      "iterations": 1,
+      "scatter_chance": {
+        "numerator": 1,
+        "denominator": 4
+      },
       "x": {
         "distribution": "uniform",
         "extent": [
@@ -29,13 +37,7 @@
           16
         ]
       },
-      "y": {
-        "distribution": "uniform",
-        "extent": [
-          0,
-          "query.heightmap(variable.worldx, variable.worldz) * 2"
-        ]
-      },
+      "y": "query.heightmap(variable.worldx, variable.worldz)",
       "z": {
         "distribution": "uniform",
         "extent": [

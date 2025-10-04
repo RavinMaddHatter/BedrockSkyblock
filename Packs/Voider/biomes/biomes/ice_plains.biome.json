@@ -1,0 +1,54 @@
+{
+  "format_version": "1.21.110",
+  "minecraft:biome": {
+    "description": {
+      "identifier": "minecraft:ice_plains"
+    },
+    "components": {
+      "minecraft:creature_spawn_probability": {
+        "probability": 0.07
+      },
+      "minecraft:climate": {
+        "downfall": 0.5,
+        "snow_accumulation": [
+          0.25,
+          1.0
+        ],
+        "temperature": 0.0
+      },
+      "minecraft:multinoise_generation_rules": {
+        "target_temperature": -1.0,
+        "target_humidity": 1.0,
+        "target_altitude": 0.2,
+        "target_weirdness": 1.0,
+        "weight": 0.0
+      },
+      "minecraft:overworld_height": {
+        "noise_type": "lowlands"
+      },
+      "minecraft:surface_builder": {
+        "builder": {
+          "type": "minecraft:overworld",
+          "sea_floor_depth": 7,
+          "sea_floor_material": "minecraft:bedrock",
+          "foundation_material": "minecraft:bedrock",
+          "mid_material": "minecraft:bedrock",
+          "top_material": "minecraft:bedrock",
+          "sea_material": "minecraft:air"
+        }
+      },
+      "minecraft:tags": {
+        "tags": [
+          "frozen",
+          "ice",
+          "ice_plains",
+          "overworld",
+          "spawns_cold_variant_farm_animals",
+          "spawns_cold_variant_frogs",
+          "spawns_snow_foxes",
+          "spawns_white_rabbits"
+        ]
+      }
+    }
+  }
+}
