@@ -16,6 +16,7 @@ var netherRoof
 var treeCount
 var freshLoad=true
 var worldConfigured
+var netherRun
 const searchPattern = [[0,0],[0,16],[16,16],[0,16],[-16,16],[-16,0],[-16,-16],[0,-16],[16,-16],[32,0],[32,16],[32,32],[16,32],[0,32],[-16,32],[-32,32],[-32,16],[-32,0],[-32,-16],[-32,-32],[-16,-32],[0,-32],[16,-32],[32,-32],[32,-16],[48,0],[-48,0],[0,48],[0,-48],[48,16],[-48,16],[16,48],[16,-48],[48,-16],[-48,0],[-16,48],[-16,-48],[48,32],[-48,32],[32,48],[32,-48],[48,-32],[-48,-32],[-32,48],[-32,-48]]//
 const gameTypes = ["Island on Death" ,"Island Per User" ,"Classic" ,"Pillowcore"]
 const challengeModes = ["Classic", "Nether Start", "No Items", "No Regen"]
@@ -73,6 +74,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
         (origin,treecount) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("treeCount",treecount)//Loading settings
+				loadRules()
 			})
         }
     );
@@ -88,6 +90,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
         (origin,scattermax) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("scatterMax",scattermax)//Loading settings
+				loadRules()
 			})
         }
     );
@@ -104,6 +107,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("NetherRoof",scattermax)//Loading settings
 			})
+			loadRules()
         }
     );
 	customCommandRegistry.registerCommand(
@@ -126,6 +130,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
 						moderator.runCommand("gamerule naturalregeneration true")
 						break;
 				}
+				loadRules()
 			})
         }
     );
@@ -141,6 +146,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
         (origin,styleName) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("sapIndex",Object.keys(saplings).indexOf(styleName))
+				loadRules()
 			})
         }
     );
@@ -156,6 +162,7 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
         (origin,styleName) => {
 			system.runTimeout(function(){
 				world.setDynamicProperty("sapIndex",gameTypes.indexOf(styleName))
+				loadRules()
 			})
         }
     );
@@ -193,6 +200,12 @@ system.beforeEvents.startup.subscribe(({ customCommandRegistry  }) => {
 
 // subscriptions
 world.afterEvents.worldLoad.subscribe(({ customCommandRegistry  }) => {
+	loadRules()
+})
+function loadRules(){
+	if (netherRun){
+		system.clearJob(netherRun)
+	}
 	worldConfigured=world.getDynamicProperty("worldConfigured")
 	if (typeof worldConfigured!== "undefined"){//if skyblock settigns are not saved, try and set up the server.
 		let sapIndex = world.getDynamicProperty("sapIndex")//Loading settings
@@ -205,11 +218,11 @@ world.afterEvents.worldLoad.subscribe(({ customCommandRegistry  }) => {
 		saplingType = saplingTypes[sapIndex]//loading the sappling selected
 		challengeMode = challengeModes[styleIdx]//Loading loading challeng mode
 		if(netherRoof && freshLoad){
-			system.runInterval(setNetherRoof,10)
+			netherRun = system.runInterval(setNetherRoof,10)
 			freshLoad=false
 		}
 	}
-})
+}
 
 // subscriptions
 world.afterEvents.playerPlaceBlock.subscribe((event) => {
@@ -581,6 +594,7 @@ function showSetupMenu(){
 		}
 		worldConfigured=world.setDynamicProperty("worldConfigured",true)
 		respawnPlayer(moderator)
+		loadRules()
 	});
 }
 function getGamemode(){
