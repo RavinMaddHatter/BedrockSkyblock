@@ -38,11 +38,10 @@
     ],
     "may_grow_through": [
       "minecraft:air",
-      "minecraft:structure_void",
       "minecraft:red_mushroom_block"
     ],
     "may_replace": [
-      "minecraft:structure_void"
+      "minecraft:dirt"
     ]
   }
 }

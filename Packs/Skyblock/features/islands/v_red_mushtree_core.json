@@ -6,7 +6,7 @@
     },
     "trunk": {
       "trunk_height": 5,
-      "trunk_block": "minecraft:structure_void"
+      "trunk_block": "minecraft:air"
     },
     "canopy": {
       "canopy_offset": {
@@ -19,7 +19,7 @@
         "run": 1
       },
       "variation_chance": 0,
-      "leaf_block": "minecraft:structure_void"
+      "leaf_block": "minecraft:air"
     },
     "may_grow_on": [
       "minecraft:dirt",

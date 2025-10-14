@@ -6,7 +6,6 @@
     },
     "features": [
       "isl:islands/v_red_mushtree_top",
-      "isl:islands/v_red_mushtree_core",
       "isl:islands/v_red_mushtree_body"
     ]
   }
