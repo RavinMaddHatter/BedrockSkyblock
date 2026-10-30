@@ -305,12 +305,6 @@ world.afterEvents.playerPlaceBlock.subscribe((event) => {
 world.afterEvents.entityDie.subscribe((event) => {//handles on death 
 	if(event.deadEntity.typeId == "minecraft:player"){
 		event.deadEntity.addTag("respawn")//Setup to give items on respawn and know that this is a death
-		switch(getGamemode()){
-			case "Island Per User":
-			case "Island on Death":
-			case "Pillowcore":
-				break;
-		}
 	}
 });
 
@@ -409,8 +403,6 @@ function respawnPlayer(player){
 					y:player.getDynamicProperty("islandY"),
 					z:player.getDynamicProperty("islandZ")});//reset player spawnpoint to island if it's been cleared, e.g. by breaking bed
 			}
-			
-			
 			break;
 		case "Hardcore":
 		case "Island on Death":
